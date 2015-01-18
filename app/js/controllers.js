@@ -4,9 +4,8 @@
 
 var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination']);
 
-onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment',
-    function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment) {
-
+onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q',
+    function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q) {
 
         $scope.gridOptions = {};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
@@ -14,6 +13,11 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
         };
 
         $scope.gridOptions.filterOptions = $scope.filterOptions;
+
+
+        $scope.bla = 'martin';
+
+
 
         personService.query().$promise.then(function(data) {
                 $scope.surnames = data.surnames;
@@ -82,7 +86,6 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-
 
 
     }
