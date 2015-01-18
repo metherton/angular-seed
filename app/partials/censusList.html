@@ -1,0 +1,34 @@
+<div>
+    <script type="text/ng-template" id="addCensusHouseholdEntryForm.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Add Census Household Entry</h3>
+        </div>
+        <div class="modal-body">
+            <dt><label for="census">Census:</label></dt>
+            <dd><select ng-change="change()" class="form-group-sm form-control" id="census" ng-model="censusHouseholdEntry.censusHousehold.census.entityId" ng-options="census.entityId as (census.year + ' ' + census.country.name) for census in censuses"></select></dd>
+            <dt><label for="location">Location:</label></dt>
+            <dd><select ng-change="change()" class="form-group-sm form-control" id="location" ng-model="censusHouseholdEntry.censusHousehold.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locationOptions"></select></dd>
+            <dt><label for="census">Person:</label></dt>
+            <dd><select ng-change="change()" class="form-group-sm form-control" id="person" ng-model="censusHouseholdEntry.person.entityId" ng-options="person.entityId as (person.firstName + ' ' + person.surname.surname + ' ' + (person.birthDate | date) ) for person in personOptions"></select></dd>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Census Household Entry</button>
+</div>
+<div>
+    <div ui-grid="gridOptions" ui-grid-pagination class="censusGrid"></div>
+    <p>Page: {{ gridApi.pagination.getPage() }}</p>
+    <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
+    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
+        previous page
+    </button>
+    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
+        next page
+    </button>
+</div>
+
+
+

@@ -6,7 +6,16 @@ module.exports = function(config){
     files : [
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-route/angular-route.js',
+      'app/bower_components/angular-resource/angular-resource.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/angular-ui-grid/ui-grid.js',
+      'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+      'app/bower_components/angular-moment/angular-moment.js',
+      'app/bower_components/angular-ui-map/ui-map.js',
+      'app/bower_components/angular-ui-utils/event.js',
+      'app/*.js',
+      'app/js/**/*.js',
+      'test/unit/**/*.js',
       'app/components/**/*.js',
       'app/view*/**/*.js'
     ],
