@@ -14,12 +14,7 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
 
         $scope.gridOptions.filterOptions = $scope.filterOptions;
 
-
-        $scope.bla = 'martin';
-
-
-
-        personService.query().$promise.then(function(data) {
+        personService.getPersons().then(function (data) {
                 $scope.surnames = data.surnames;
                 $scope.fathers = data.fatherDetails;
                 $scope.mothers = data.motherDetails;
@@ -57,8 +52,12 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
 
 
         $scope.addPerson = function(person) {
-            personService.addPerson(person).$promise.then($route.reload);
-            $scope.personDetails = {};
+
+            personService.addPerson(person).then(function () {
+                $route.reload;
+                $scope.personDetails = {};
+            });
+
         };
 
         $scope.open = function (size) {
@@ -81,7 +80,7 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             });
 
             modalInstance.result.then(function (person) {
-                personService.addPerson(person).$promise.then($route.reload);
+                personService.addPerson(person).then($route.reload);
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
