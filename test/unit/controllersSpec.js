@@ -54,6 +54,37 @@ describe('Ons controllers', function() {
 
         }));
 
+        it('should do an add person', function () {
+            scope.
+            scope.model.folderType = {
+                folderCode: 'X',
+                folderName: 'MyFolderName'
+            };
+            scope.action.startSubmitting = angular.noop;
+            spyOn(scope.action, 'startSubmitting');
+            scope.action.setFinishedSuccesfully = angular.noop;
+            spyOn(scope.action, 'setFinishedSuccesfully');
+            scope.action.setFinishedWithError = angular.noop;
+            spyOn(scope.action, 'setFinishedWithError');
+
+            $rootScope.$digest();
+            scope.requestFolder();
+
+            deferredCustomerDetails.resolve();
+            $rootScope.$digest();
+
+            expect(selectedCustomerService.getCustomerDetails).toHaveBeenCalled();
+            expect(requestFolderService.requestFolder).toHaveBeenCalled();
+            expect(scope.action.startSubmitting).toHaveBeenCalled();
+
+            deferredFolderRequest.resolve();
+            $rootScope.$digest();
+
+            expect(summaryListService.add).toHaveBeenCalled();
+            expect(scope.action.setFinishedSuccesfully).toHaveBeenCalled();
+            expect(scope.action.setFinishedWithError).not.toHaveBeenCalled();
+        });
+
 
         xit('should create "persons" model with 2 persons fetched from xhr', function() {
             $httpBackend.expectGET('partials/home.html');

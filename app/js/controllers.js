@@ -80,7 +80,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             });
 
             modalInstance.result.then(function (person) {
-                personService.addPerson(person).then($route.reload);
+                personService.addPerson(person).then(function(data) {
+                    console.log('data is' + data);
+                    $route.reload();
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
