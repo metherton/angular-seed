@@ -7,7 +7,7 @@ var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagin
 onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q',
     function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q) {
 
-        $scope.person = {};
+   //     $scope.person = {};
 
         $scope.gridOptions = {};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
@@ -52,18 +52,6 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             { field: 'motherDetails', displayName: 'Mother'}
         ];
 
-
-        $scope.addPerson = function(person) {
-
-       ///     $scope.person = person;
-
-            personService.addPerson(person).then(function () {
-                $route.reload;
-                $scope.personDetails = {};
-            });
-
-        };
-
         $scope.open = function (size) {
 
             $scope.modalInstance = $modal.open({
@@ -84,10 +72,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             });
 
             $scope.modalInstance.result.then(function (person) {
-                $scope.person = person;
-//                personService.addPerson(person).then(function(data) {
-//                    $route.reload();
-               // });
+   //             $scope.person = person;
+                personService.addPerson(person).then(function(data) {
+                    $route.reload();
+               });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
