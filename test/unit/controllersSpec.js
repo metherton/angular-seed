@@ -16,7 +16,7 @@ describe('Ons controllers', function() {
 
     describe('PersonListCtrl', function(){
 
-        var $rootScope, $q, scope, ctrl, personService, $routeParams, $location, $route, deferredPersons;
+        var $rootScope, $q, scope, ctrl, personService, $routeParams, $location, $route, deferredPersons, deferredPerson;
 
         var fakeModal = {
             result: {
@@ -46,6 +46,7 @@ describe('Ons controllers', function() {
             $q = _$q_;
 
             deferredPersons = $q.defer();
+            deferredPerson = $q.defer();
 
             //personService = _personService_;
             personService = {
@@ -66,6 +67,8 @@ describe('Ons controllers', function() {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             scope.person = {};
+
+            spyOn(personService, 'addPerson').andCallThrough();
 
             ctrl = $controller('PersonListCtrl', {
                 $scope: scope,
