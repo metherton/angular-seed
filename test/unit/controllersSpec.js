@@ -16,7 +16,7 @@ describe('Ons controllers', function() {
 
     describe('PersonListCtrl', function(){
 
-        var $rootScope, scope, ctrl, personService, $routeParams, $location, $route;
+        var $rootScope, $q, scope, ctrl, personService, $routeParams, $location, $route, deferredPersons;
 
         var fakeModal = {
             result: {
@@ -41,9 +41,21 @@ describe('Ons controllers', function() {
         }));
 
 
-        beforeEach(inject(function(_$rootScope_, $controller,  _$routeParams_, _$location_, _$route_, _personService_, _$modal_) {
+        beforeEach(inject(function(_$rootScope_, $controller,  _$routeParams_, _$location_, _$route_, _$modal_, _$q_) {
 
-            personService = _personService_;
+            $q = _$q_;
+
+            deferredPersons = $q.defer();
+
+            //personService = _personService_;
+            personService = {
+                addPerson: function() {
+                    return deferredPerson.promise;
+                },
+                getPersons : function() {
+                    return deferredPersons.promise;
+                }
+            };
 
        //     spyOn(personService, 'query').andReturn({personDetails : [{person: {surname:'Etherton',firstName:'Mark', birthDate: 2}}, {person : {surname:'Etherton',firstName:'Samuel', birthDate: 1}}]});
 
