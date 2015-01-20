@@ -12,49 +12,69 @@ describe('Ons controllers', function() {
   });
 
   beforeEach(module('onsApp'));
-//    beforeEach(module('onsServices'));
-//
-//  beforeEach(module('onsServices'));
+  beforeEach(module('onsServices'));
 
     describe('PersonListCtrl', function(){
 
-        var scope, ctrl, personService, $httpBackend, $routeParams, $location, $route;
-        var deferredPersonForm, personServiceMock;
+        var $rootScope, scope, ctrl, personService, $routeParams, $location, $route;
 
-        beforeEach(inject(function($rootScope, $controller, _$httpBackend_, $q) {
-
-//            deferredPersonForm = $q.defer();
-//            deferredPersonForm.resolve('somevalue');
-
-            scope = $rootScope.$new();
-
-            personServiceMock = {
-                query: function() {
-                    deferredPersonForm = $q.defer();
-                    return {$promise: deferredPersonForm.promise};
+        var fakeModal = {
+            result: {
+                then: function(confirmCallback, cancelCallback) {
+                    //Store the callbacks for later when the user clicks on the OK or Cancel button of the dialog
+                    this.confirmCallBack = confirmCallback;
+                    this.cancelCallback = cancelCallback;
                 }
-            };
+            },
+            close: function(item) {
+                //The user clicked OK on the modal dialog, call the stored confirm callback with the selected item
+                this.result.confirmCallBack( item );
+            },
+            dismiss: function( type ) {
+                //The user clicked cancel on the modal dialog, call the stored cancel callback
+                this.result.cancelCallback( type );
+            }
+        };
 
-//            personService = _personService_;
-            $httpBackend = _$httpBackend_;
+        beforeEach(inject(function($modal) {
+            spyOn($modal, 'open').andReturn(fakeModal);
+        }));
 
-//            spyOn(personService, 'query').andReturn({personDetails : [{person: {surname:'Etherton',firstName:'Mark', birthDate: 2}}, {person : {surname:'Etherton',firstName:'Samuel', birthDate: 1}}]});
 
-//            $routeParams = _$routeParams_;
-//            $location = _$location_;
-//            $route = _$route_;
+        beforeEach(inject(function(_$rootScope_, $controller,  _$routeParams_, _$location_, _$route_, _personService_, _$modal_) {
 
-            spyOn(personServiceMock, 'query').andCallThrough();
+            personService = _personService_;
 
-            $httpBackend.when('GET', 'partials/home.html').respond('someresponse');
+       //     spyOn(personService, 'query').andReturn({personDetails : [{person: {surname:'Etherton',firstName:'Mark', birthDate: 2}}, {person : {surname:'Etherton',firstName:'Samuel', birthDate: 1}}]});
 
-            ctrl = $controller('PersonListCtrl', {$scope: scope, personService: personServiceMock}, $httpBackend);
-          //  $rootScope.$apply();
+            $routeParams = _$routeParams_;
+            $location = _$location_;
+            $route = _$route_;
 
+            $rootScope = _$rootScope_;
+            scope = $rootScope.$new();
+            scope.person = {};
+
+            ctrl = $controller('PersonListCtrl', {
+                $scope: scope,
+                personService: personService,
+                $modal: _$modal_});
 
         }));
 
-        it('should do an add person', function () {
+        it('should attach a show success when modal login returns success response', function () {
+       //     expect(scope.items).toEqual(['item1', 'item2', 'item3']);
+            var selectedPerson = {name: 'john'};
+
+            // Mock out the modal closing, resolving with a selected item, say 1
+            scope.open(); // Open the modal
+            scope.modalInstance.close(selectedPerson);
+            expect(scope.person.name).toEqual('john'); // No dice (scope.selected) is not defined accroding to Jasmine.
+        });
+
+
+
+        xit('should do an add person', function () {
             scope.
             scope.model.folderType = {
                 folderCode: 'X',
@@ -92,10 +112,10 @@ describe('Ons controllers', function() {
             expect(scope.bla).toEqualData('martin');
         });
 
-        afterEach(function() {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
+//        afterEach(function() {
+//            $httpBackend.verifyNoOutstandingExpectation();
+//            $httpBackend.verifyNoOutstandingRequest();
+//        });
 
     });
 
