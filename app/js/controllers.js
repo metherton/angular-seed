@@ -7,8 +7,6 @@ var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagin
 onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q',
     function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q) {
 
-   //     $scope.person = {};
-
         $scope.gridOptions = {};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
@@ -72,10 +70,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             });
 
             $scope.modalInstance.result.then(function (person) {
-                $scope.person = person;
-//                personService.addPerson(person).then(function(data) {
-//                    $route.reload();
-//               });
+                personService.addPerson(person).then(function(data) {
+                    console.log('data', data);
+                    $route.reload();
+               });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
