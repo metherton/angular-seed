@@ -29,6 +29,7 @@ describe('Ons controllers', function() {
             },
             close: function(item) {
                 //The user clicked OK on the modal dialog, call the stored confirm callback with the selected item
+                console.log('item', item)
                 this.result.confirmCallBack( item );
             },
             dismiss: function( type ) {
@@ -94,15 +95,15 @@ describe('Ons controllers', function() {
         });
 
         it('should attach a show success when modal login returns success response', function () {
-            var selectedPerson = {name: 'john'};
+            var selectedPerson = {name: 'john1'};
 
             // Mock out the modal closing, resolving with a selected item, say 1
-            deferredPerson.resolve({name: 'john'});
+      //      deferredPerson.resolve({name: 'john'});
 
             scope.open(); // Open the modal
             scope.modalInstance.close(selectedPerson);
 
-            expect(fakePersonService.addPerson).toHaveBeenCalled();
+            expect(fakePersonService.addPerson).toHaveBeenCalledWith(selectedPerson);
         });
 
 
