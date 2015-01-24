@@ -26,6 +26,13 @@ describe('my app', function() {
             });
         }).first().click();
 
+        element.all(by.repeater('personDetail in personDetails')).filter(function(element) {
+            return element.getText().then(function(s) {
+                return s.indexOf('george') > -1;
+            });
+        }).each(function(e) {
+            e.getText().then(console.log);
+        });
 
 //        element.all(by.repeater('(rowRenderIndex, row) in rowContainer.renderedRows track by $index')).filter(function(element) {
 //            return element.getText().then(function(s) {

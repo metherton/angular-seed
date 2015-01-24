@@ -34,6 +34,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                     });
                 });
 
+                $scope.personDetails = data.personDetails;
+
+               // console.log($scope.personDetails);
+
                 $scope.gridOptions.data = data.personDetails;
             }
         );

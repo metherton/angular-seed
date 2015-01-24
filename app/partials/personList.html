@@ -64,6 +64,15 @@
 
     <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Person</button>
 </div>
+
+<ul>
+    <li ng-repeat="personDetail in personDetails">
+        <p>{{personDetail.person.firstName}}</p>
+        <p>{{personDetail.person.birthDate}}</p>
+    </li>
+</ul>
+
+
 <div>
     <div ui-grid="gridOptions" ui-grid-pagination class="grid"></div>
     <p>Page: {{ gridApi.pagination.getPage() }}</p>
