@@ -15,6 +15,8 @@ var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices
     });
 
 
+
+
 onsApp.directive('personList', function() {
         return {
             controller: function($scope) {
@@ -34,6 +36,39 @@ onsApp.directive('personList', function() {
         };
     }
 );
+
+
+onsApp.directive('formHelper', function() {
+    return {
+        restrict : 'A',
+        require: 'form',
+        link: function (scope, element, attrs, form) {
+            scope[attrs.formHelper] = {
+                isFormValid: function() {
+                    return form.$valid;
+                },
+                checkFormValid: function() {
+                    var checkAllRequired = function (){
+                        // set the form to dirty to enable invalid indicators
+                        if(angular.isDefined(form)) {
+                            angular.forEach(form.$error.required, function (required) {
+                                required.$setTouched();
+                            });
+                        }
+                    };
+                    checkAllRequired(form);
+                    return angular.isDefined(form) && !form.$invalid;
+                },
+                showValidationMessageFor: function(fieldName) {
+                    // only show message if the field is invalid and has been changed
+                    // (otherwise you'll get the message as soon as you see the form)
+                    return form[fieldName].$invalid && form[fieldName].$touched;
+                }
+            };
+        }
+    };
+});
+
 
 onsApp.directive('surnameList', function() {
         return {
