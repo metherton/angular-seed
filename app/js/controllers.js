@@ -2,17 +2,24 @@
 
 /* Controllers */
 
-var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination']);
+var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection']);
 
 onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q',
     function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q) {
 
-        $scope.gridOptions = {};
+        $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                var msg = 'row selected ' + row.isSelected;
+                $log.log(msg);
+                console.log('row', row);
+                window.document.location = ('#/persons/' + row.entity.person.entityId);
+            });
         };
 
         $scope.gridOptions.filterOptions = $scope.filterOptions;
+        $scope.gridOptions.multiSelect = false;
 
         personService.getPersons().then(function (data) {
                 $scope.surnames = data.surnames;
