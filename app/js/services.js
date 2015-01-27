@@ -25,6 +25,20 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
           return deferred.promise;
       };
 
+      this.getPerson = function (personId) {
+          var deferred = $q.defer();
+          personServiceApi().query(personId).$promise.then(
+              function (data) {
+                  console.log(data);
+                  deferred.resolve(data);
+              },
+              function (error) {
+                  deferred.reject(error);
+              }
+          );
+          return deferred.promise;
+      };
+
       this.getPersons = function () {
           var deferred = $q.defer();
           personServiceApi().query().$promise.then(

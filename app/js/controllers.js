@@ -4,17 +4,14 @@
 
 var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection']);
 
-onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q',
-    function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q) {
+onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q', '$window',
+    function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q, $window) {
 
         $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-                var msg = 'row selected ' + row.isSelected;
-                $log.log(msg);
-                console.log('row', row);
-                window.document.location = ('#/persons/' + row.entity.person.entityId);
+               window.document.location = ('#/persons/' + row.entity.person.entityId);
             });
         };
 
@@ -42,9 +39,6 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                 });
 
                 $scope.personDetails = data.personDetails;
-
-               // console.log($scope.personDetails);
-
                 $scope.gridOptions.data = data.personDetails;
             }
         );
@@ -82,20 +76,21 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
 
             $scope.modalInstance.result.then(function (person) {
                 personService.addPerson(person).then(function(data) {
-                    console.log('data', data);
                     $route.reload();
                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-
-
     }
 ]);
 
 onsControllers.controller('PersonDetailsCtrl', function($scope, personService, $routeParams, $window) {
-    $scope.personDetails = personService.get({personId: $routeParams.personId});
+    personService.getPerson({personId: $routeParams.personId}).then(function(data) {
+        $scope.personDetail = data;
+        console.log($scope.personDetail);
+    });
+
 });
 
 onsControllers.controller('AddSurnameCtrl', function ($scope, $modalInstance) {
