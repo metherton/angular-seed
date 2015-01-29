@@ -70,11 +70,12 @@ footer {
 	/*margin-left : 5%;*/
     clear:both;
     /*background-color:rgb(66,66,66);*/
-    color: white;
+    /*color: white;*/
     height: 50px;
     text-align: center;
     vertical-align: middle;
 }
+
 
 p {
 	margin-left: 5%;
