@@ -38,15 +38,25 @@ table td {
 body {
 	font-family: verdana;
 	font-size:0.8em;
+    background-color: rgb(233,233,233);
 }
 
 #content {
-	margin-left : 5%;
-	margin-right: 5%;
+    /*background-color:rgb(188,188,188);*/
+    /*background-color: rgb(50, 153, 187);*/
+    background-color: rgb(233,233,233);
+    float: left;
+	/*margin-left : 5%;*/
+	/*margin-right: 5%;*/
+    width: 85%;
+    padding: 2%;
 }
 
 header {
-	background-color: rgb(50, 153, 187);;
+    background-color: rgb(50, 153, 187);
+    /*background-color:rgb(188,188,188);*/
+	/*background-color: rgb(50, 153, 187);*/
+    /*background-color: rgb(66,66,66);*/
 	color: white;
 	font-size: 2.0em;
 	padding-left: 5em;
@@ -56,9 +66,14 @@ header {
 }
 
 footer {
-    margin-top: 2em;
-	margin-left : 5%;
+    /*margin-top: 2em;*/
+	/*margin-left : 5%;*/
     clear:both;
+    background-color:rgb(66,66,66);
+    color: white;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 p {
@@ -69,15 +84,42 @@ p {
 	/*padding-bottom: 1em;*/
 /*}*/
 
-nav {
-	background-color: rgb(255, 153, 0);
+ #nav {
+     line-height:30px;
+     background-color:rgb(188,188,188);
+     /*background-color: rgb(50, 153, 187);*/
+     /*background-color: rgb(255, 153, 0);*/
+
+     height:552px;
+     width:15%;
+     float:left;
+     padding:5px;
+ }
+
+nav.top {
+    background-color: rgb(255, 153, 0);
+	/*background-color: rgb(255, 153, 0);*/
+    /*background-color:rgb(188,188,188);*/
 	padding-left: 10em;
 	padding-right: 10em;
 	padding-bottom: 0.3em;
 	padding-top: 0.3em;
 	font-size: 1.2em;
-	margin-bottom: 1%;
+	/*margin-bottom: 1%;*/
 }
+
+aside {
+    float: left;
+    width: 250px;
+
+}
+
+ /*nav.left {*/
+     /*background-color: rgb(255, 153, 0);*/
+     /*float: left;*/
+     /*width: 17%;*/
+     /*height: 100%;*/
+ /*}*/
 
 nav a {
 	margin-left: 2em;

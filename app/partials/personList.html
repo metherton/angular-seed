@@ -34,29 +34,9 @@
                 </dd>
                 <dt><label for="gender">Gender:</label></dt>
                 <dd><input ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" /><label id="lblMale" for="male">Male</label><input  id="female" type="radio" ng-model="person.gender" value="0" /><label id="lblFemale" for="female">Female</label>
-
                 </dd>
-                <!--<dt><label for="ageFrom">Age From:</label></dt>-->
-                <!--<dd><input type="number" max="{{person.ageTo}}" ng-change="change()" class="form-group-sm form-control" name="ageFrom" id="ageFrom" ng-model="person.ageFrom" required >-->
-                    <!--<span ng-show="addPersonForm.ageFrom.$error.required && addPersonForm.ageFrom.$dirty" >Age From is required</span>-->
-                    <!--<span ng-show="addPersonForm.ageFrom.$error.max && addPersonForm.ageFrom.$dirty" >Age From must NOT be greater than age to</span>-->
-                <!--</dd>-->
-                <!--<dt><label for="ageTo">Age To:</label></dt>-->
-                <!--<dd><input type="number" min-value="3" ng-change="change()" class="form-group-sm form-control" name="ageTo" id="ageTo" ng-model="person.ageTo" required >-->
-                    <!--<span ng-show="addPersonForm.ageTo.$error.required && addPersonForm.ageTo.$dirty" >Age To is required</span>-->
-                    <!--<span ng-show="addPersonForm.ageTo.$error.minValue && addPersonForm.ageTo.$dirty" >Age To must NOT be less than age from</span>-->
-                <!--</dd>-->
-
-                <!--<tt>value = {{person.ageTo}}</tt>-->
-                <!--<br>-->
-                <!--<tt>value.$valid = {{addPersonForm.ageTo.$valid}}</tt>-->
-                <!--<br>-->
-                <!--<tt>value.$error = {{addPersonForm.ageTo.$error}}</tt>-->
-                <!--<tt>value.$error.mini = {{addPersonForm.ageTo.$error.mini}}</tt>-->
-                <!--<tt>$dirty = {{addPersonForm.ageTo.$dirty}}</tt>-->
-                <!--<tt>ng-show = {{addPersonForm.ageTo.$error.mini && addPersonForm.ageTo.$dirty}}</tt>-->
-
-
+                <dt><label for="location">Location:</label></dt>
+                <dd><select ng-change="change()" class="form-group-sm form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select></dd>
             </dl>
             </form>
         </div>
@@ -66,7 +46,20 @@
         </div>
     </script>
 
-    <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Person</button>
+    <script type="text/ng-template" id="personDetailsForm.html">
+        <div class="modal-header">
+            <h1 class="modal-title">Person Details</h1>
+        </div>
+        <div class="modal-body">
+            <p>{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}},&nbsp;born&nbsp;{{personDetail.birthDate}},&nbsp;at&nbsp;{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.country.name}}</p>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Close</button>
+        </div>
+    </script>
+
+    <button type="button" class="btn btn-link add-entity" ng-click="openAddPerson()">Add Person</button>
 </div>
 
 <div>

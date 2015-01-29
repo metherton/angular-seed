@@ -11,17 +11,23 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-               window.document.location = ('#/persons/' + row.entity.person.entityId);
+                $scope.openPersonDetails(row.entity.person.entityId);
+//               window.document.location = ('#/persons/' + row.entity.person.entityId);
             });
         };
 
         $scope.gridOptions.filterOptions = $scope.filterOptions;
         $scope.gridOptions.multiSelect = false;
 
+        personService.getPerson({personId: $routeParams.personId}).then(function(data) {
+            $scope.personDetail = data;
+        });
+
         personService.getPersons().then(function (data) {
                 $scope.surnames = data.surnames;
                 $scope.fathers = data.fatherDetails;
                 $scope.mothers = data.motherDetails;
+                $scope.locations = data.locations;
 
                 var deathMoment = moment(data.deathDate);
 
@@ -38,8 +44,11 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                     });
                 });
 
-                $scope.personDetails = data.personDetails;
-                $scope.gridOptions.data = data.personDetails;
+                $scope.personDetails = _.map(data.personDetails, function(p) {
+                    p.location = p.person.location.addressLine1 + ' ' + p.person.location.addressLine2 + ' ' + p.person.location.city + ' ' + p.person.location.country.name;
+                    return p;
+                });
+                $scope.gridOptions.data = $scope.personDetails;
             }
         );
 
@@ -51,11 +60,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
             { field: 'person.firstName', displayName: 'First Name'},
             { field: 'person.surname.surname', displayName: 'Surname'},
             { field: 'birthDate', displayName: 'Date Of Birth'},
-            { field: 'fatherDetails', displayName: 'Father'},
-            { field: 'motherDetails', displayName: 'Mother'}
+            { field: 'location', displayName: 'Location'}
         ];
 
-        $scope.open = function (size) {
+        $scope.openAddPerson = function (size) {
 
             $scope.modalInstance = $modal.open({
                 resolve: {
@@ -67,6 +75,9 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                     },
                     mothers: function() {
                         return $scope.mothers;
+                    },
+                    locations: function() {
+                        return $scope.locations;
                     }
                 },
                 templateUrl: 'addPersonForm.html',
@@ -82,16 +93,37 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.openPersonDetails = function (personId) {
+
+            $scope.modalInstance = $modal.open({
+                resolve: {
+                    personId: function() {
+                        return personId;
+                    }
+                },
+                templateUrl: 'personDetailsForm.html',
+                controller: 'PersonDetailsCtrl'
+               // size: size
+            });
+
+//            $scope.modalInstance.result.then(function (person) {
+//                personService.addPerson(person).then(function(data) {
+//                    $route.reload();
+//                });
+//            }, function () {
+//                $log.info('Modal dismissed at: ' + new Date());
+//            });
+        };
     }
 ]);
 
-onsControllers.controller('PersonDetailsCtrl', function($scope, personService, $routeParams, $window) {
-    personService.getPerson({personId: $routeParams.personId}).then(function(data) {
-        $scope.personDetail = data;
-        console.log($scope.personDetail);
-    });
-
-});
+//onsControllers.controller('PersonDetailsCtrl', function($scope, personService, $routeParams, $window) {
+//    personService.getPerson({personId: $routeParams.personId}).then(function(data) {
+//        $scope.personDetail = data;
+//    });
+//
+//});
 
 onsControllers.controller('AddSurnameCtrl', function ($scope, $modalInstance) {
 
@@ -179,12 +211,6 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
             return $scope.censusHouseholdEntry.censusHousehold.census.entityId == census.entityId;
         }).first().year;
 
-//        var flattenedCensusData = _(data.censusHouseholdEntries).values().flatten(true).map(function (h) { var birthYear = new Date(h.person.birthDate); h.person.age = h.censusHousehold.census.year - birthYear.getFullYear();return h;}).value();
-//        $scope.gridOptions.data = flattenedCensusData;
-//        $scope.censuses = data.censuses;
-//        $scope.locations = data.locations;
-//        $scope.persons = data.persons;
-
         $scope.locationOptions = _($scope.locations).filter(function(location) {
             return location.country.entityId==$scope.selectedCountryId;
         }).value();
@@ -209,11 +235,12 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
 });
 
 
-onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers) {
+onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations) {
 
     $scope.surnames = surnames;
     $scope.fathers = fathers;
     $scope.mothers = mothers;
+    $scope.locations = locations;
 
     $scope.person = {};
 
@@ -262,6 +289,40 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
 });
+
+onsControllers.controller('PersonDetailsCtrl', function ($scope, $modalInstance, personId, personService) {
+
+    personService.getPerson({personId: personId}).then(function(data) {
+        $scope.personDetail = data;
+        console.log($scope.personDetail);
+    });
+
+    $scope.change = function() {
+        console.log('changed');
+    }
+
+    $scope.isEmpty = function(value) {
+        return value === undefined;
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.person);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+});
+
 
 onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, locationService, $routeParams, $location, $route, $modal, $log) {
