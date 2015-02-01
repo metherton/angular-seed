@@ -7,10 +7,10 @@
             <form form-helper="formHelper" novalidate name="addPersonForm">
                 <div class="row">
                     <div class="col-xs-4">
-                        <div class="form-group" ng-class="{'has-success': deleted, 'has-feedback': deleted}" >
+                        <div class="form-group" ng-class="{'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
                             <label class="control-label" for="firstName">First Name</label>
                             <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
-                            <span ng-show="deleted" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             <span id="firstNameSuccess" class="sr-only">(success)</span>
                             <!--<span ng-show="addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty" >First Name is required</span>-->
                             <!--<span ng-show="formHelper.showValidationMessageFor('firstName')" >Form Helper First Name is required</span>-->
@@ -43,7 +43,7 @@
                             <select ng-change="change()" class="form-control"  id="father" ng-model="person.fatherId" ng-options="father.person.entityId as father.personSummary group by father.person.surname.surname  for father in fathers"></select>
                         </div>
                     </div>
-                    <div class="col-xs-5">
+                    <div class="col-xs-6">
                         <div class="form-group">
                             <label for="mother">Mother</label>
                             <select ng-change="change()" class="form-control"  id="mother" ng-model="person.motherId" ng-options="mother.person.entityId as mother.personSummary for mother in mothers"></select>
