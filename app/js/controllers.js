@@ -261,9 +261,11 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
     };
 
     $scope.today = function() {
-        $scope.person.birthDate = new Date();
+        $scope.person.birthDate = (new Date(2000,1,1)).toLocaleDateString();
     };
     $scope.today();
+
+    $scope.redbackground = true;
 
     $scope.clear = function () {
         $scope.person.birthDate = null;

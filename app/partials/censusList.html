@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     <script type="text/ng-template" id="addCensusHouseholdEntryForm.html">
         <div class="modal-header">
             <h3 class="modal-title">Add Census Household Entry</h3>
@@ -18,7 +18,7 @@
     </script>
     <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Census Household Entry</button>
 </div>
-<div>
+<div class="container-fluid">
     <div ui-grid="gridOptions" ui-grid-pagination class="censusGrid"></div>
     <p>Page: {{ gridApi.pagination.getPage() }}</p>
     <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
