@@ -7,7 +7,7 @@
             <form form-helper="formHelper" novalidate name="addPersonForm">
                 <div class="row">
                     <div class="col-xs-4">
-                        <div class="form-group" ng-class="{'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
+                        <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
                             <label class="control-label" for="firstName">First Name</label>
                             <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
                             <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
@@ -50,35 +50,29 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-xs-8">
-                        <div class="form-group">
-                            <label for="location">Birth Location</label>
-                            <select placeholder="location" ng-change="change()" class="form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select>
+                        <div class="form-group" ng-class="{'has-error': addPersonForm.location.$error.required, 'has-success': addPersonForm.location.$valid}" >
+                            <label class="control-label" for="location">Birth Location</label>
+                            <select name="location" required placeholder="location" ng-change="change()" class="form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select>
                         </div>
                     </div>
                 </div>
-
-                <input type="checkbox" ng-model="deleted">
-
-
                 <div class="row">
-                    <div class="col-xs-2">
-                        <div class="form-group">
-                            <label class="radio-inline">
-                                <input ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
-                            </label>
+                        <div class="col-xs-2">
+                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required, 'has-success': addPersonForm.gender.$valid}">
+                                <label for="gender" class="radio-inline">
+                                    <input required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-2">
-                        <div class="form-group">
-                            <label class="radio-inline">
-                                <input ng-change="change()" id="female" type="radio" ng-model="person.gender" value="0" />&nbsp;Female
-                            </label>
+                        <div class="col-xs-2">
+                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required, 'has-success': addPersonForm.gender.$valid}">
+                                <label for="gender" class="radio-inline">
+                                    <input required name="gender[]" ng-change="change()" id="female" type="radio" ng-model="person.gender" value="0" />&nbsp;Female
+                                </label>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </form>
         </div>
