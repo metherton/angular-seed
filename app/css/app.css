@@ -295,6 +295,6 @@ html, header, article, body, div, span, applet, object, iframe, h1, h2, h3, h4, 
      color: #473e3f;
  }
 
- .redb {
-     background-color: red;
- }
+body {
+    padding-top: 70px;
+}
