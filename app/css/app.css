@@ -298,3 +298,7 @@ html, header, article, body, div, span, applet, object, iframe, h1, h2, h3, h4, 
 body {
     padding-top: 70px;
 }
+
+a.navbar-brand {
+    font-size: 24px;
+}

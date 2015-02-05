@@ -12,6 +12,11 @@ var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices
     // use in views, ng-repeat="x in _.range(3)"
     .run(function ($rootScope) {
         $rootScope._ = window._;
+
+
+
+// register the interceptor as a service
+
     });
 
 
@@ -292,7 +297,7 @@ onsApp.directive('locationForm', function() {
 
 
 
-onsApp.config(function($routeProvider) {
+onsApp.config(function($routeProvider, $provide, $httpProvider) {
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
     $routeProvider.when('/trees', {templateUrl: 'partials/treeList.html', controller: 'TreeListCtrl'});
     $routeProvider.when('/trees/:treeId', {templateUrl: 'partials/treeDetails.html', controller: 'TreeDetailsCtrl'});
@@ -305,7 +310,47 @@ onsApp.config(function($routeProvider) {
     $routeProvider.when('/locations', {templateUrl: 'partials/locationList.html', controller: 'LocationListCtrl'});
     $routeProvider.when('/locations/:locationId', {templateUrl: 'partials/locationDetails.html', controller: 'LocationDetailsCtrl'});
     $routeProvider.otherwise({redirectTo: '/home'});
+
+
+    $provide.factory('myHttpInterceptor', function($q) {
+        return {
+            // optional method
+            'request': function(config) {
+                // do something on success
+                return config;
+            },
+
+            // optional method
+            'requestError': function(rejection) {
+                // do something on error
+                if (canRecover(rejection)) {
+                    return responseOrNewPromise
+                }
+                return $q.reject(rejection);
+            },
+
+            // optional method
+            'response': function(response) {
+                // do something on success
+                return response;
+            },
+
+            // optional method
+            'responseError': function(rejection) {
+                // do something on error
+                if (canRecover(rejection)) {
+                    return responseOrNewPromise
+                }
+                return $q.reject(rejection);
+            }
+        };
+    });
+
+    $httpProvider.interceptors.push('myHttpInterceptor');
+
+
 });
+
 
 
 onsApp.filter('personUrl', function() {

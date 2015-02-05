@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <script type="text/ng-template" id="addPersonForm.html">
         <div class="modal-header">
-            <h3 class="modal-title">Add Person</h3>
+            <h3 class="modal-title">Add Birth</h3>
         </div>
         <div class="modal-body">
             <form form-helper="formHelper" novalidate name="addPersonForm">
                 <div class="row">
                     <div class="col-xs-4">
-                        <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
+                        <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
                             <label class="control-label" for="firstName">First Name</label>
                             <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
                             <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
-                        <div class="form-group" ng-class="{'has-error': addPersonForm.location.$error.required, 'has-success': addPersonForm.location.$valid}" >
+                        <div class="form-group" ng-class="{'has-error': addPersonForm.location.$error.required  && addPersonForm.location.$dirty, 'has-warning': addPersonForm.location.$invalid && addPersonForm.location.$pristine, 'has-success': addPersonForm.location.$valid}" >
                             <label class="control-label" for="location">Birth Location</label>
                             <select name="location" required placeholder="location" ng-change="change()" class="form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select>
                         </div>
@@ -60,14 +60,14 @@
                 </div>
                 <div class="row">
                         <div class="col-xs-2">
-                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required, 'has-success': addPersonForm.gender.$valid}">
+                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required  && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
                                 <label for="gender" class="radio-inline">
                                     <input required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
                                 </label>
                             </div>
                         </div>
                         <div class="col-xs-2">
-                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required, 'has-success': addPersonForm.gender.$valid}">
+                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
                                 <label for="gender" class="radio-inline">
                                     <input required name="gender[]" ng-change="change()" id="female" type="radio" ng-model="person.gender" value="0" />&nbsp;Female
                                 </label>
@@ -76,6 +76,7 @@
                 </div>
             </form>
         </div>
+
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="formHelper.checkFormValid() && ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
@@ -83,12 +84,12 @@
     </script>
 
 
-    <button type="button" class="btn btn-link add-entity" ng-click="openAddPerson()">Add Person</button>
+    <!--<button type="button" class="btn btn-link add-entity" ng-click="openAddPerson()">Add Person</button>-->
 </div>
 <div class="container-fluid">
     <script type="text/ng-template" id="personDetailsForm.html">
         <div class="modal-header">
-            <h1 class="modal-title">Person Details</h1>
+            <h3 class="modal-title">Birth Details</h3>
         </div>
         <div class="modal-body">
             <p>{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}},&nbsp;born&nbsp;{{personDetail.birthDate}},&nbsp;at&nbsp;{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.country.name}}</p>
@@ -99,14 +100,59 @@
         </div>
     </script>
 </div>
+
 <div class="container-fluid">
-    <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection class="grid"></div>
-    <p>Page: {{ gridApi.pagination.getPage() }}</p>
-    <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
-        previous page
-    </button>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
-        next page
-    </button>
+    <div class="row">
+        <div class="col-md-2">
+
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+
+
+
+
+
+        </div>
+        <div class="col-md-9">
+            <ol class="breadcrumb">
+                <li><a href="#home">Home</a></li>
+                <li class="active">Births</li>
+            </ol>
+            <div class="page-header">
+                <h1>Births <small>From 1568 - present day</small></h1>
+            </div>
+            <p><button type="button" ng-click="openAddPerson()" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Birth</button></p>
+            <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection class="grid"></div>
+            <p>
+                <div class="row">
+                    <div class="col-md-1">Page: {{ gridApi.pagination.getPage() }}</div>
+                    <div class="col-md-2">Total pages: {{ gridApi.pagination.getTotalPages() }}</div>
+                    <div class="col-md-4"><button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
+                        previous page
+                    </button>&nbsp;
+                    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
+                        next page
+                    </button></div>
+                </div>
+            </p>
+        </div>
+    </div>
 </div>

@@ -235,7 +235,7 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
 });
 
 
-onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations) {
+onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment) {
 
     $scope.surnames = surnames;
     $scope.fathers = fathers;
@@ -261,7 +261,7 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
     };
 
     $scope.today = function() {
-        $scope.person.birthDate = (new Date(2000,1,1)).toLocaleDateString();
+        $scope.person.birthDate = moment();
     };
     $scope.today();
 
