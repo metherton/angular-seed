@@ -299,6 +299,7 @@ onsApp.directive('locationForm', function() {
 
 onsApp.config(function($routeProvider, $provide, $httpProvider) {
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
+//    $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'navigation'});
     $routeProvider.when('/trees', {templateUrl: 'partials/treeList.html', controller: 'TreeListCtrl'});
     $routeProvider.when('/trees/:treeId', {templateUrl: 'partials/treeDetails.html', controller: 'TreeDetailsCtrl'});
     $routeProvider.when('/persons', {templateUrl: 'partials/personList.html', controller: 'PersonListCtrl'});
@@ -312,41 +313,44 @@ onsApp.config(function($routeProvider, $provide, $httpProvider) {
     $routeProvider.otherwise({redirectTo: '/home'});
 
 
-    $provide.factory('myHttpInterceptor', function($q) {
-        return {
-            // optional method
-            'request': function(config) {
-                // do something on success
-                return config;
-            },
-
-            // optional method
-            'requestError': function(rejection) {
-                // do something on error
-                if (canRecover(rejection)) {
-                    return responseOrNewPromise
-                }
-                return $q.reject(rejection);
-            },
-
-            // optional method
-            'response': function(response) {
-                // do something on success
-                return response;
-            },
-
-            // optional method
-            'responseError': function(rejection) {
-                // do something on error
-                if (canRecover(rejection)) {
-                    return responseOrNewPromise
-                }
-                return $q.reject(rejection);
-            }
-        };
-    });
-
-    $httpProvider.interceptors.push('myHttpInterceptor');
+//    $provide.factory('myHttpInterceptor', function($q, $location) {
+//        return {
+//            // optional method
+//            'response': function(response) {
+//                // do something on success
+//                console.log(response);
+//                if (response.status === 401 || response.status === 302) {
+//
+//                    $location.path('index.html#/login')
+//                }
+//                return response;
+//            },
+//
+//            // optional method
+//            'responseError': function(rejection) {
+//                console.log(rejection);
+//                // do something on error
+////                if (canRecover(rejection)) {
+////                    return responseOrNewPromise
+////                }
+////                if (rejection.status === 302 ) {
+////                    console.log('302 found');
+////                }
+////
+////                if (rejection.status === 0) {
+////                    $location.path("/login");
+////                }
+//
+//                if (rejection.status === 401 || rejection.status === 302) {
+//                    $location.path('index.html#/login')
+//                }
+//
+//                return $q.reject(rejection);
+//            }
+//        };
+//    });
+//
+//    $httpProvider.interceptors.push('myHttpInterceptor');
 
 
 });
