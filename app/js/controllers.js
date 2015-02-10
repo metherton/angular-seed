@@ -4,24 +4,19 @@
 
 var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection']);
 
-onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$location', '$route', '$modal', '$log', '_', 'moment', '$q', '$window',
-    function($scope, personService, $routeParams, $location, $route, $modal, $log, _, moment, $q, $window) {
+onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$route', '$modal', '$log', '_', 'moment', '$q', '$window',
+    function($scope, personService, $routeParams,  $route, $modal, $log, _, moment) {
 
         $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
                 $scope.openPersonDetails(row.entity.person.entityId);
-//               window.document.location = ('#/persons/' + row.entity.person.entityId);
             });
         };
 
         $scope.gridOptions.filterOptions = $scope.filterOptions;
         $scope.gridOptions.multiSelect = false;
-
-        personService.getPerson({personId: $routeParams.personId}).then(function(data) {
-            $scope.personDetail = data;
-        });
 
         personService.getPersons().then(function (data) {
                 $scope.surnames = data.surnames;
@@ -104,26 +99,11 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                 },
                 templateUrl: 'personDetailsForm.html',
                 controller: 'PersonDetailsCtrl'
-               // size: size
             });
 
-//            $scope.modalInstance.result.then(function (person) {
-//                personService.addPerson(person).then(function(data) {
-//                    $route.reload();
-//                });
-//            }, function () {
-//                $log.info('Modal dismissed at: ' + new Date());
-//            });
         };
     }
 ]);
-
-//onsControllers.controller('PersonDetailsCtrl', function($scope, personService, $routeParams, $window) {
-//    personService.getPerson({personId: $routeParams.personId}).then(function(data) {
-//        $scope.personDetail = data;
-//    });
-//
-//});
 
 onsControllers.controller('AddSurnameCtrl', function ($scope, $modalInstance) {
 
@@ -143,77 +123,6 @@ onsControllers.controller('AddSurnameCtrl', function ($scope, $modalInstance) {
         $modalInstance.dismiss('cancel');
     };
 });
-
-onsControllers.controller('navigation',
-
-    function($rootScope, $scope, $http, $location, $route) {
-
-        $scope.tab = function(route) {
-            return $route.current && route === $route.current.controller;
-        };
-
-        var authenticate = function(callback) {
-
-            $http.get('user').success(function(data) {
-                if (data.name) {
-                    $rootScope.authenticated = true;
-                } else {
-                    $rootScope.authenticated = false;
-                }
-                callback && callback();
-            }).error(function() {
-                $rootScope.authenticated = false;
-                callback && callback();
-            });
-
-        }
-
-        authenticate();
-
-        $scope.credentials = {};
-        $scope.login = function() {
-            $http.post('login', $.param($scope.credentials), {
-                headers : {
-                    "content-type" : "application/x-www-form-urlencoded"
-                }
-            }).success(function(data) {
-                authenticate(function() {
-                    if ($rootScope.authenticated) {
-                        console.log("Login succeeded")
-                        $location.path("/");
-                        $scope.error = true;
-                        $rootScope.authenticated = true;
-                    } else {
-                        console.log("Login failed with redirect")
-                        $location.path("/login");
-                        $scope.error = true;
-                        $rootScope.authenticated = false;
-                    }
-                });
-            }).error(function(data) {
-                console.log("Login failed")
-                $location.path("/login");
-                $scope.error = true;
-                $rootScope.authenticated = false;
-            })
-        };
-
-        $scope.logout = function() {
-            $http.post('logout', {}).success(function() {
-                $rootScope.authenticated = false;
-                $location.path("/");
-            }).error(function(data) {
-                console.log("Logout failed")
-                $rootScope.authenticated = false;
-            });
-        }
-
-    }
-);
-
-
-
-
 
 onsControllers.controller('AddLocationCtrl', function ($scope, $modalInstance, countries) {
 
@@ -305,7 +214,6 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
     };
 });
 
-
 onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment) {
 
     $scope.surnames = surnames;
@@ -395,7 +303,6 @@ onsControllers.controller('PersonDetailsCtrl', function ($scope, $modalInstance,
     };
 
 });
-
 
 onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, locationService, $routeParams, $location, $route, $modal, $log) {
@@ -573,38 +480,6 @@ onsControllers.controller('HomeCtrl', ['$scope', 'baseUrl', function ($scope, ba
     }
 
 }]);
-
-//function isEmpty(value) {
-//    return angular.isUndefined(value) || value === '' || value === null || value !== value;
-//}
-
-//onsControllers.directive('minValue', function(_) {
-//
-//    return {
-//        restrict: 'A',
-//        require: 'ngModel',
-//        link: function(scope, elem, attr, ctrl) {
-//            scope.$watch(attr.minValue, function () {
-//                ctrl.$setViewValue(ctrl.$viewValue);
-//            });
-//            var minValidator = function (value) {
-//                var min = scope.$eval(attr.minValue) || 0;
-//                if (!_.isEmpty(value) && value < min) {
-//                    ctrl.$setValidity('minValue', false);
-//                    return undefined;
-//                } else {
-//                    ctrl.$setValidity('minValue', true);
-//                    return value;
-//                }
-//            };
-//            ctrl.$parsers.push(minValidator);
-//            ctrl.$formatters.push(minValidator);
-//        }
-//
-//
-//    };
-//
-//});
 
 onsControllers.directive('minValue', function(_) {
 

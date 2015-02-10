@@ -4,6 +4,7 @@ module.exports = function(config){
     basePath : './',
 
     files : [
+      'app/bower_components/moment/moment.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-resource/angular-resource.js',
@@ -15,6 +16,7 @@ module.exports = function(config){
       'app/bower_components/angular-ui-utils/event.js',
       'app/*.js',
       'app/js/**/*.js',
+      'app/js/lodash.js',
       'test/unit/**/*.js',
       'app/components/**/*.js',
       'app/view*/**/*.js'
