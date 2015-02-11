@@ -29,6 +29,7 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
           var deferred = $q.defer();
           personServiceApi().query(personId).$promise.then(
               function (data) {
+
                   deferred.resolve(data);
               },
               function (error) {
@@ -39,9 +40,11 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
       };
 
       this.getPersons = function () {
+          console.log('+++++++++++++++in getPersons++++++++++++++');
           var deferred = $q.defer();
           personServiceApi().query().$promise.then(
               function (data) {
+                  console.log('datainapip', data);
                   deferred.resolve(data);
               },
               function (error) {

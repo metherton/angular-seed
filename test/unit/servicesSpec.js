@@ -29,31 +29,52 @@ describe('personService', function () {
         resultError = undefined;
     });
 
-    describe('Add Person', function() {
+    describe('getPersons', function() {
 
-        var expectedPostData, person;
-
-        beforeEach(function () {
-            person = {firstName: 'martin', surname: 'etherton'};
-            expectedPostData = {
-                'firstName':'martin',
-                'surname':'etherton'
-            };
-        });
-
-        xit('should add person with correct POST data', function () {
-            personService.addPerson(person).
-                then(successHandler, errorHandler);
-
-            $httpBackend.expectPOST('http://localhost:8080/ons-command/rest/persons', expectedPostData).
-                respond({id : 'id'}
-            );
-            expect(resultData).toBeUndefined();
+        it('should return persons', function() {
+            var result;
+            $httpBackend.expectGET('http://localhost:8080/ons-command/rest/persons').respond({data: 'somePersons'});
+            personService.getPersons().then(function(persons) {
+                console.log('data:', persons);
+                result = persons;
+            });
             $httpBackend.flush();
-            expect(resultData.id).toBe('id');
-            expect(resultError).toBeUndefined();
+            expect(result.data).toBe('somePersons');
         });
+
+        afterEach(function() {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        })
+
     });
+
+//    describe('Add Person', function() {
+//
+//        var expectedPostData, person;
+//
+//        beforeEach(function () {
+//            person = {firstName: 'martin', surname: 'etherton'};
+//            expectedPostData = {
+//                'firstName':'martin',
+//                'surname':'etherton'
+//            };
+//        });
+//
+//        xit('should add person with correct POST data', function () {
+//            personService.addPerson(person).
+//                then(successHandler, errorHandler);
+//
+//            $httpBackend.expectPOST('http://localhost:8080/ons-command/rest/persons', expectedPostData).
+//                respond({id : 'id'}
+//            );
+//            expect(resultData).toBeUndefined();
+//            $httpBackend.flush();
+//            expect(resultData.id).toBe('id');
+//            expect(resultError).toBeUndefined();
+//        });
+//    });
+
 
 });
 
