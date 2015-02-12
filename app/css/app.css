@@ -302,3 +302,12 @@ body {
 a.navbar-brand {
     font-size: 24px;
 }
+
+span.details-heading {
+    font-size: 18px;
+}
+
+ span.details {
+     font-size: 16px;
+
+ }

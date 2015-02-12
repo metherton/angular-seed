@@ -92,8 +92,18 @@
             <h3 class="modal-title">Birth Details</h3>
         </div>
         <div class="modal-body">
-            <p>{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}},&nbsp;born&nbsp;{{personDetail.birthDate}},&nbsp;at&nbsp;{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.city}}, &nbsp;{{personDetail.person.location.country.name}}</p>
-
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 class="panel-title">CoreInfo</h3></div>
+                <div class="panel-body">
+                    <div class="row" style="vertical-align: middle">
+                        <div class="col-md-2"><span class="details-heading"><strong>Name:</strong></span></div><div class="col-md-4"><span class="details">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</span></div>
+                        <div class="col-md-2"><span class="details-heading"><strong>When:</strong></span></div><div class="col-md-3"><span class="details">{{personDetail.birthDate}}</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><span class="details-heading"><strong>Where:</strong></span></div><div class="col-md-8"><span class="details">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">Close</button>
