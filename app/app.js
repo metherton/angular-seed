@@ -313,17 +313,18 @@ onsApp.config(function($routeProvider, $provide, $httpProvider) {
     $routeProvider.otherwise({redirectTo: '/home'});
 
 
-    $httpProvider.defaults.withCredentials = true;
-    $httpProvider.defaults.headers.get = {
-    //    'Origin' : 'http://localhost:8000',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Origin': 'http://localhost:8000'
-    };
-
-    $httpProvider.defaults.headers.options = {
-        'Access-Control-Request-Headers': 'Access-Control-Allow-Credentials , Access-Control-Allow-Origin',
-        'Access-Control-Allow-Origin': 'http://localhost:8000'
-    };
+//    $httpProvider.defaults.withCredentials = true;
+//    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+//    $httpProvider.defaults.headers.get = {
+//    //    'Origin' : 'http://localhost:8000',
+//        'Access-Control-Allow-Credentials': true,
+//        'Access-Control-Allow-Origin': 'http://localhost:8000'
+//    };
+//
+//    $httpProvider.defaults.headers.options = {
+//        'Access-Control-Request-Headers': 'Access-Control-Allow-Credentials , Access-Control-Allow-Origin',
+//        'Access-Control-Allow-Origin': 'http://localhost:8000'
+//    };
 
 //    $provide.factory('myHttpInterceptor', function($q, $location) {
 //        return {
