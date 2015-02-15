@@ -12,8 +12,6 @@
                             <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
                             <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             <span id="firstNameSuccess" class="sr-only">(success)</span>
-                            <!--<span ng-show="addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty" >First Name is required</span>-->
-                            <!--<span ng-show="formHelper.showValidationMessageFor('firstName')" >Form Helper First Name is required</span>-->
                         </div>
                     </div>
                     <div class="col-xs-3">
@@ -89,25 +87,23 @@
             <h3 class="modal-title">Birth Details</h3>
         </div>
         <div class="modal-body">
-            <div class="col-md-2">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><h3 class="panel-title">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</h3></div>
-                    <div class="panel-body">
-                        <table>
-                            <tr>
-                                <td class="panel-body-table"><strong>When:</strong></td><td class="panel-body-table">{{personDetail.birthDate}}</td>
-                                <td class="panel-body-table">&nbsp;</td>
-                                <td class="panel-body-table"><strong>Where:</strong></td><td class="panel-body-table">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</td>
-                            </tr>
-                        </table>
-                    </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</h3></div>
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <td class="panel-body-table"><strong>When:</strong></td><td class="panel-body-table">{{personDetail.birthDate}}</td>
+                            <td class="panel-body-table">&nbsp;</td>
+                            <td class="panel-body-table"><strong>Where:</strong></td><td class="panel-body-table">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-1">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
-                    </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
                 </div>
             </div>
         </div>

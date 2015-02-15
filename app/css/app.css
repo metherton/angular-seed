@@ -316,6 +316,14 @@ td.panel-body-table {
     padding: 4px;
 }
 
- /*.map-canvas {*/
-     /*height: 300px;*/
- /*}*/
+#personDetailsModal {
+    width: 800px;
+}
+
+ .map-canvas {
+    height: 300px;
+}
+
+div ul {
+    padding-left: 10px;
+}

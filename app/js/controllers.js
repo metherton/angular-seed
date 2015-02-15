@@ -458,7 +458,7 @@ onsControllers.controller('CensusListCtrl', ['$scope', 'censusService', '$routeP
         };
 
 
-        $scope.open = function (size) {
+        $scope.openAddCensusHouseholdEntry = function (size) {
 
             var modalInstance = $modal.open({
                 resolve: {

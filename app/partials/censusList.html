@@ -4,31 +4,81 @@
             <h3 class="modal-title">Add Census Household Entry</h3>
         </div>
         <div class="modal-body">
-            <dt><label for="census">Census:</label></dt>
-            <dd><select ng-change="change()" class="form-group-sm form-control" id="census" ng-model="censusHouseholdEntry.censusHousehold.census.entityId" ng-options="census.entityId as (census.year + ' ' + census.country.name) for census in censuses"></select></dd>
-            <dt><label for="location">Location:</label></dt>
-            <dd><select ng-change="change()" class="form-group-sm form-control" id="location" ng-model="censusHouseholdEntry.censusHousehold.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locationOptions"></select></dd>
-            <dt><label for="census">Person:</label></dt>
-            <dd><select ng-change="change()" class="form-group-sm form-control" id="person" ng-model="censusHouseholdEntry.person.entityId" ng-options="person.entityId as (person.firstName + ' ' + person.surname.surname + ' ' + (person.birthDate | date) ) for person in personOptions"></select></dd>
+            <form form-helper="formHelper" novalidate name="addCensusHouseholdEntryForm">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="form-group" ng-class="{'has-error': addCensusHouseholdEntryForm.census.$error.required  && addCensusHouseholdEntryForm.census.$dirty, 'has-warning': addCensusHouseholdEntryForm.census.$invalid && addCensusHouseholdEntryForm.census.$pristine, 'has-success': addCensusHouseholdEntryForm.census.$valid}" >
+                            <label class="control-label" for="census">Census</label>
+                            <select name="census" required placeholder="Census" ng-change="change()" class="form-control" id="census" ng-model="censusHouseholdEntry.censusHousehold.census.entityId" ng-options="census.entityId as (census.year + ' ' + census.country.name) for census in censuses"></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group" ng-class="{'has-error': addCensusHouseholdEntryForm.location.$error.required  && addCensusHouseholdEntryForm.location.$dirty, 'has-warning': addCensusHouseholdEntryForm.location.$invalid && addCensusHouseholdEntryForm.location.$pristine, 'has-success': addCensusHouseholdEntryForm.location.$valid}" >
+                            <label class="control-label" for="census">Location</label>
+                            <select name="location" required placeholder="Location" ng-change="change()" class="form-control" id="location" ng-model="censusHouseholdEntry.censusHousehold.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locationOptions"></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group" ng-class="{'has-error': addCensusHouseholdEntryForm.person.$error.required  && addCensusHouseholdEntryForm.person.$dirty, 'has-warning': addCensusHouseholdEntryForm.person.$invalid && addCensusHouseholdEntryForm.person.$pristine, 'has-success': addCensusHouseholdEntryForm.person.$valid}" >
+                            <label class="control-label" for="person">Person</label>
+                            <select name="person" required placeholder="Person" ng-change="change()" class="form-control" id="person" ng-model="censusHouseholdEntry.person.entityId" ng-options="person.entityId as (person.firstName + ' ' + person.surname.surname + ' ' + (person.birthDate | date) ) for person in personOptions"></select>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">OK</button>
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
-    <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Census Household Entry</button>
 </div>
 <div class="container-fluid">
-    <div ui-grid="gridOptions" ui-grid-pagination class="censusGrid"></div>
-    <p>Page: {{ gridApi.pagination.getPage() }}</p>
-    <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
-        previous page
-    </button>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
-        next page
-    </button>
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/602/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/603/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/604/300.jpg" alt="someone">
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <ol class="breadcrumb">
+                <li><a href="#home">Home</a></li>
+                <li class="active">Census Household Entries</li>
+            </ol>
+            <div class="page-header">
+                <h1 id="censusHouseholdEntries">Census Household Entries <small>From 1841 - 1940</small></h1>
+            </div>
+            <p><button type="button" ng-click="openAddCensusHouseholdEntry()" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Census Household Entry</button></p>
+            <div ui-grid="gridOptions" ui-grid-pagination class="censusGrid"></div>
+            <p>
+                <div class="row">
+                    <div class="col-md-1">Page: {{ gridApi.pagination.getPage() }}</div>
+                    <div class="col-md-2">Total pages: {{ gridApi.pagination.getTotalPages() }}</div>
+                    <div class="col-md-4"><button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
+                        previous page
+                    </button>&nbsp;
+                    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
+                        next page
+                    </button></div>
+                </div>
+            </p>
+        </div>
+    </div>
 </div>
-
-
-
