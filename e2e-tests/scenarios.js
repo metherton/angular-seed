@@ -31,11 +31,21 @@ describe('my app', function() {
     it('should redirect to login page', function() {
         element(by.id('dna')).click();
         browser.sleep(1000);
-        browser.driver.findElement(By.id('agent')).sendKeys('martin');
-        browser.driver.findElement(By.id('submit')).click();
+        browser.driver.getCurrentUrl().then(function(url) {
+            var theUrl = url;
+            console.log('get current url is ', theUrl);
+
+            if (theUrl.indexOf('login') > -1) {
+                browser.driver.findElement(By.id('agent')).sendKeys('martin');
+                browser.driver.findElement(By.id('submit')).click();
+            }
+
+        })
+
 
         browser.sleep(3000);
 
+        browser.waitForAngular();
         expect(element(by.id('births')).isPresent()).toBeTruthy();
         expect(element(by.id('births')).getText()).toBe('Births From 1568 - present day');
 

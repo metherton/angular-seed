@@ -82,9 +82,6 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
-
-
-    <!--<button type="button" class="btn btn-link add-entity" ng-click="openAddPerson()">Add Person</button>-->
 </div>
 <div class="container-fluid">
     <script type="text/ng-template" id="personDetailsForm.html">
@@ -92,15 +89,24 @@
             <h3 class="modal-title">Birth Details</h3>
         </div>
         <div class="modal-body">
-            <div class="panel panel-info">
-                <div class="panel-heading"><h3 class="panel-title">CoreInfo</h3></div>
-                <div class="panel-body">
-                    <div class="row" style="vertical-align: middle">
-                        <div class="col-md-2"><span class="details-heading"><strong>Name:</strong></span></div><div class="col-md-4"><span class="details">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</span></div>
-                        <div class="col-md-2"><span class="details-heading"><strong>When:</strong></span></div><div class="col-md-3"><span class="details">{{personDetail.birthDate}}</span></div>
+            <div class="col-md-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h3 class="panel-title">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</h3></div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td class="panel-body-table"><strong>When:</strong></td><td class="panel-body-table">{{personDetail.birthDate}}</td>
+                                <td class="panel-body-table">&nbsp;</td>
+                                <td class="panel-body-table"><strong>Where:</strong></td><td class="panel-body-table">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2"><span class="details-heading"><strong>Where:</strong></span></div><div class="col-md-8"><span class="details">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</span></div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
                     </div>
                 </div>
             </div>
@@ -114,7 +120,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-
             <div>
                 <a href="#" class="thumbnail">
                     <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
@@ -135,11 +140,6 @@
                     <img src="http://localhost:8000/app/images/604/300.jpg" alt="someone">
                 </a>
             </div>
-
-
-
-
-
         </div>
         <div class="col-md-9">
             <ol class="breadcrumb">

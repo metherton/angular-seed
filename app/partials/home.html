@@ -1,29 +1,62 @@
 <div class="container-fluid">
-    <div id="about">
-        <h3>About</h3>
-        <p>The Etherton One Name Study contains records of over 5000 Ethertons worldwide, from the 15th century to present day. Search our archives to discover the history of your Etherton family tree</p>
-        <h3>Contact</h3>
-        <p>If you need further information regarding your Etherton family history, please feel free to mail me at martinetherton63@gmail.com</p>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">About</h3>
+            </div>
+            <div class="panel-body">
+                The Etherton One Name Study contains records of over 5000 Ethertons worldwide, from the 15th century to present day. Search our archives to discover the history of your Etherton family tree
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recent Activity</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>5-1-2015 - Census information added</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div id="carousel">
-        <h3>Etherton Gallery</h3>
-        <carousel interval="myInterval">
-            <slide ng-repeat="slide in slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;">
-                <div class="carousel-caption">
-                    <h4>Slide {{$index}}</h4>
-                    <p>{{slide.text}}</p>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Etherton Gallery</h3>
+            </div>
+            <div class="panel-body">
+                <div id="carousel">
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides" active="slide.active">
+                            <img ng-src="{{slide.image}}" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h4>Slide {{$index}}</h4>
+                                <p>{{slide.text}}</p>
+                            </div>
+                        </slide>
+                    </carousel>
                 </div>
-            </slide>
-        </carousel>
+            </div>
+        </div>
     </div>
-    <div id="recent">
-        <h3>Recent Activity</h3>
-        <ul>
-            <li>5-1-2015 - Census information added</li>
-        </ul>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Contact</h3>
+            </div>
+            <div class="panel-body">
+                <address>
+                    <strong>Martin Etherton</strong><br>
+                    Voorsterweg 6a<br>
+                    8316PS Marknesse<br>
+                    The Netherlands<br>
+                </address>
+                <address>
+                    <a href="mailto:#">martinetherton63@gmail.com</a>
+                </address>
+            </div>
+        </div>
     </div>
-
 </div>
 
 

@@ -311,3 +311,11 @@ span.details-heading {
      font-size: 16px;
 
  }
+
+td.panel-body-table {
+    padding: 4px;
+}
+
+ /*.map-canvas {*/
+     /*height: 300px;*/
+ /*}*/
