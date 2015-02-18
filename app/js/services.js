@@ -67,13 +67,56 @@ onsServices.factory('surnameService', ['$resource', 'baseRestUrl',
   }]
 );
 
-onsServices.factory('censusService', ['$resource', 'baseRestUrl',
-        function($resource, baseRestUrl){
+onsServices.service('censusService', ['$resource', 'baseRestUrl', '$q',
+    function($resource, baseRestUrl, $q) {
+
+        var censusServiceApi = function() {
             return $resource(baseRestUrl + 'ons-command/rest/censuses/:censusHouseholdEntryId', {}, {
                 query: {method: 'GET', params: {censusHouseholdEntryId: ''}, isArray: false},
-                addCensusHouseholdEntry: {method: 'POST'}
-            });
-        }]
+                addCensusHouseholdEntry: {method: 'POST'}});
+        };
+
+        this.addCensusHouseholdEntry = function(censusHouseholdEntry) {
+            var deferred = $q.defer();
+            censusServiceApi().addCensusHouseholdEntry(censusHouseholdEntry).$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.getCensusHouseholdEntry = function (censusHouseholdEntryId) {
+            var deferred = $q.defer();
+            censusServiceApi().query(censusHouseholdEntryId).$promise.then(
+                function (data) {
+
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.getCensusHouseholdEntries = function () {
+            var deferred = $q.defer();
+            censusServiceApi().query().$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+    }]
 );
 
 onsServices.factory('locationService', ['$resource', 'baseRestUrl',

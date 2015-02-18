@@ -33,6 +33,39 @@
         </div>
     </script>
 </div>
+
+<div class="container-fluid">
+    <script type="text/ng-template" id="censusHouseholdEntryDetailsForm.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Census Household Entry Details</h3>
+        </div>
+        <div class="modal-body">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">{{censusDetail.person.firstName}}&nbsp;{{censusDetail.person.surname.surname}}</h3></div>
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <td class="panel-body-table"><strong>Census:</strong></td><td class="panel-body-table">{{censusDetail.census.year}}</td>
+                            <td class="panel-body-table">&nbsp;</td>
+                            <td class="panel-body-table"><strong>Location:</strong></td><td class="panel-body-table">{{censusDetail.location.addressLine1}}&nbsp;{{censusDetail.location.addressLine2}}&nbsp;{{censusDetail.location.city}}&nbsp;{{censusDetail.location.country.name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Close</button>
+        </div>
+    </script>
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
@@ -66,7 +99,7 @@
                 <h1 id="censusHouseholdEntries">Census Household Entries <small>From 1841 - 1940</small></h1>
             </div>
             <p><button type="button" ng-click="openAddCensusHouseholdEntry()" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Census Household Entry</button></p>
-            <div ui-grid="gridOptions" ui-grid-pagination class="censusGrid"></div>
+            <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection class="grid"></div>
             <p>
                 <div class="row">
                     <div class="col-md-1">Page: {{ gridApi.pagination.getPage() }}</div>

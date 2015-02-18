@@ -332,6 +332,65 @@ onsControllers.controller('PersonDetailsCtrl', function ($scope, $modalInstance,
 
 });
 
+onsControllers.controller('CensusHouseholdEntryDetailsCtrl', function ($scope, $modalInstance, censusService, censusHouseholdEntryId) {
+
+    censusService.getCensusHouseholdEntry({censusHouseholdEntryId: censusHouseholdEntryId}).then(function(data) {
+        $scope.censusDetail = data;
+        console.log($scope.censusDetail);
+    });
+
+    $scope.change = function() {
+        console.log('changed');
+    }
+
+    $scope.isEmpty = function(value) {
+        return value === undefined;
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.person);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.myMarkers = [];
+
+    $scope.addMarker = function($event, $params) {
+        $scope.myMarkers.push(new google.maps.Marker({
+            map: $scope.myMap,
+            position: $params[0].latLng
+        }));
+    };
+
+    $scope.openMarkerInfo = function(marker) {
+        $scope.currentMarker = marker;
+        $scope.currentMarkerLat = marker.getPosition().lat();
+        $scope.currentMarkerLng = marker.getPosition().lng();
+        $scope.myInfoWindow.open($scope.myMap, marker);
+    };
+
+    $scope.setMarkerPosition = function(marker, lat, lng) {
+        marker.setPosition(new google.maps.LatLng(lat, lng));
+    };
+
+    $scope.mapOptions = {
+        center: new google.maps.LatLng(35.784, -78.670),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+});
+
 onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, locationService, $routeParams, $location, $route, $modal, $log) {
 
@@ -428,18 +487,23 @@ onsControllers.controller('SurnameListCtrl', ['$scope', 'surnameService', '$rout
 onsControllers.controller('CensusListCtrl', ['$scope', 'censusService', '$routeParams', '$location', '$route', '$modal', '$log', 'moment',
     function($scope, censusService, $routeParams, $location, $route, $modal, $log, moment) {
 
-        $scope.gridOptions = {};
+        $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
+
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                $scope.openCensusHouseholdEntryDetails(row.entity.entityId);
+            });
         };
 
-        censusService.query().$promise.then(function(data) {
-            var flattenedCensusData = _(data.censusHouseholdEntries).values().flatten(true).map(function (h) { var birthYear = new Date(h.person.birthDate); h.person.age = h.censusHousehold.census.year - birthYear.getFullYear();return h;}).value();
-            $scope.gridOptions.data = flattenedCensusData;
-            $scope.censuses = data.censuses;
-            $scope.locations = data.locations;
-            $scope.persons = data.persons;
-        });
+        censusService.getCensusHouseholdEntries().then(function (data) {
+                var flattenedCensusData = _(data.censusHouseholdEntries).values().flatten(true).map(function (h) { var birthYear = new Date(h.person.birthDate); h.person.age = h.censusHousehold.census.year - birthYear.getFullYear();return h;}).value();
+                $scope.gridOptions.data = flattenedCensusData;
+                $scope.censuses = data.censuses;
+                $scope.locations = data.locations;
+                $scope.persons = data.persons;
+            }
+        );
 
         $scope.gridOptions.columnDefs = [
             { field: 'censusHousehold.census.year', displayName: 'Year'},
@@ -452,15 +516,9 @@ onsControllers.controller('CensusListCtrl', ['$scope', 'censusService', '$routeP
             { field: 'censusHousehold.location.country.name', displayName: 'Country'}
             ];
 
-        $scope.addCensusHouseholdEntry = function(censusHouseholdEntry) {
-            censusService.addCensusHouseholdEntry(censusHouseholdEntry).$promise.then($route.reload);
-            $scope.censusHouseholdEntry = {};
-        };
-
-
         $scope.openAddCensusHouseholdEntry = function (size) {
 
-            var modalInstance = $modal.open({
+            $scope.modalInstance = $modal.open({
                 resolve: {
                     censuses: function() {
                         return $scope.censuses;
@@ -477,15 +535,28 @@ onsControllers.controller('CensusListCtrl', ['$scope', 'censusService', '$routeP
                 size: size
             });
 
-            modalInstance.result.then(function (censusHouseholdEntry) {
-                censusService.addCensusHouseholdEntry(censusHouseholdEntry).$promise.then($route.reload);
+            $scope.modalInstance.result.then(function (censusHouseholdEntry) {
+                censusService.addCensusHouseholdEntry(censusHouseholdEntry).then(function(data) {
+                    $route.reload();
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
+        $scope.openCensusHouseholdEntryDetails = function (censusHouseholdEntryId) {
 
+            $scope.modalInstance = $modal.open({
+                resolve: {
+                    censusHouseholdEntryId: function() {
+                        return censusHouseholdEntryId;
+                    }
+                },
+                templateUrl: 'censusHouseholdEntryDetailsForm.html',
+                controller: 'CensusHouseholdEntryDetailsCtrl'
+            });
 
+        };
 
     }
 ]);

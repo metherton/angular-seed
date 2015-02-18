@@ -4,27 +4,52 @@
             <h3 class="modal-title">Add Location</h3>
         </div>
         <div class="modal-body">
-            <dl>
-                <!--<div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"-->
-                     <!--ui-event="{'map-click': 'openMarkerInfo(marker)'}">-->
-                <!--</div>-->
-                <!--<div ui-map="myMap" ui-options="mapOptions" class="map-canvas" ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"></div>-->
-                <dt><label for="city">City:</label></dt>
-                <dd><input  ng-change="change()" name="city" id="city" ng-model="location.city" required >
-                    <span ng-show="addLocationForm.city.$error.required && addLocationForm.city.dirty" >City is required</span>
-                </dd>
-                <dt><label for="addressLine1">Address Line 1:</label></dt>
-                <dd><input  ng-change="change()" name="addressLine1" id="addressLine1" ng-model="location.addressLine1" required >
-                    <span ng-show="addLocationForm.addressLine1.$error.required && addLocationForm.addressLine1.dirty" >Address Line 1 is required</span>
-                </dd>
-                <dt><label for="addressLine2">Address Line 2:</label></dt>
-                <dd><input  ng-change="change()" name="addressLine2" id="addressLine2" ng-model="location.addressLine2"></dd>
-                <dt><label for="postCode">Post Code:</label></dt>
-                <dd><input  ng-change="change()" name="postCode" id="postCode" ng-model="location.postCode"></dd>
-                <dt><label for="country">Country:</label></dt>
-                <dd><select  ng-change="change()" id="country" ng-model="location.country.entityId" ng-options="country.entityId as country.name for country in countries"></select></dd>
-
-            </dl>
+            <form form-helper="formHelper" novalidate name="addLocationForm">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="form-group" ng-class="{'has-error': addLocationForm.city.$error.required && addLocationForm.city.$dirty, 'has-warning': addLocationForm.city.$invalid && addLocationForm.city.$pristine, 'has-success': addLocationForm.city.$valid, 'has-feedback': addLocationForm.city.$valid}" >
+                            <label class="control-label" for="city">City</label>
+                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter City" name="city" id="city" ng-model="location.city" required aria-describedby="citySuccess" >
+                            <span ng-show="addLocationForm.city.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span id="citySuccess" class="sr-only">(success)</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group" ng-class="{'has-error': addLocationForm.postCode.$error.required && addLocationForm.postCode.$dirty, 'has-warning': addLocationForm.postCode.$invalid && addLocationForm.postCode.$pristine, 'has-success': addLocationForm.postCode.$valid, 'has-feedback': addLocationForm.postCode.$valid}" >
+                            <label class="control-label" for="city">Post Code</label>
+                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter Post Code" name="postCode" id="postCode" ng-model="location.postCode" required aria-describedby="postCodeSuccess" >
+                            <span ng-show="addLocationForm.postCode.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span id="postCodeSuccess" class="sr-only">(success)</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select ng-init="location.country=countries[0]" ng-change="change()" required class="form-control" id="country" ng-model="location.country.entityId" ng-options="country.entityId as country.name for country in countries">
+                                <span ng-show="formHelper.showValidationMessageFor('country')" >Form Helper Country is required</span>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group" ng-class="{'has-error': addLocationForm.addressLine1.$error.required && addLocationForm.addressLine1.$dirty, 'has-warning': addLocationForm.addressLine1.$invalid && addLocationForm.addressLine1.$pristine, 'has-success': addLocationForm.addressLine1.$valid, 'has-feedback': addLocationForm.addressLine1.$valid}" >
+                            <label class="control-label" for="addressLine1">Address Line 1</label>
+                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter Address Line 1" name="addressLine1" id="addressLine1" ng-model="location.addressLine1" required aria-describedby="addressLine1Success" >
+                            <span ng-show="addLocationForm.addressLine1.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span id="addressLine1Success" class="sr-only">(success)</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group" ng-class="{'has-error': addLocationForm.addressLine2.$error.required && addLocationForm.addressLine2.$dirty, 'has-warning': addLocationForm.addressLine2.$invalid && addLocationForm.addressLine2.$pristine, 'has-success': addLocationForm.addressLine2.$valid, 'has-feedback': addLocationForm.addressLine2.$valid}" >
+                            <label class="control-label" for="addressLine2">Address Line 2</label>
+                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter Address Line 2" name="addressLine2" id="addressLine2" ng-model="location.addressLine2" required aria-describedby="addressLine2Success" >
+                            <span ng-show="addLocationForm.addressLine1.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span id="addressLine2Success" class="sr-only">(success)</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
             <button ng-disabled="isEmpty(location.city)" class="btn btn-primary" ng-click="ok()">OK</button>
@@ -34,6 +59,40 @@
 
     <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Location</button>
 </div>
+
+<div class="container-fluid">
+    <script type="text/ng-template" id="personDetailsForm.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Birth Details</h3>
+        </div>
+        <div class="modal-body">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">{{personDetail.person.firstName}}&nbsp;{{personDetail.person.surname.surname}}</h3></div>
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <td class="panel-body-table"><strong>When:</strong></td><td class="panel-body-table">{{personDetail.birthDate}}</td>
+                            <td class="panel-body-table">&nbsp;</td>
+                            <td class="panel-body-table"><strong>Where:</strong></td><td class="panel-body-table">{{personDetail.person.location.addressLine1}}&nbsp;{{personDetail.person.location.addressLine2}}&nbsp;{{personDetail.person.location.city}}&nbsp;{{personDetail.person.location.country.name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Close</button>
+        </div>
+    </script>
+</div>
+
+
 <div class="container-fluid">
     <div ui-grid="gridOptions" ui-grid-pagination class="grid"></div>
     <p>Page: {{ gridApi.pagination.getPage() }}</p>
