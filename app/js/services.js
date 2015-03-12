@@ -58,14 +58,57 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
   }]
 );
 
-onsServices.factory('surnameService', ['$resource', 'baseRestUrl',
-  function($resource, baseRestUrl){
-	return $resource(baseRestUrl + 'ons-command/rest/surnames/:surnameId', {}, {
-        query: {method: 'GET', params: {surnameId: ''}, isArray: false},
-        addSurname: {method: 'POST'}
-    });
-  }]
+onsServices.service('surnameService', ['$resource', 'baseRestUrl', '$q',
+    function($resource, baseRestUrl, $q) {
+
+        var surnameServiceApi = function() {
+            return $resource(baseRestUrl + 'ons-command/rest/surnames/:surnameId', {}, {
+                query: {method: 'GET', params: {surnameId: ''}, isArray: false},
+                addSurname: {method: 'POST'}});
+        };
+
+        this.addSurname = function(surname) {
+            var deferred = $q.defer();
+            surnameServiceApi().addSurname(surname).$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.getSurname = function (surnameId) {
+            var deferred = $q.defer();
+            surnameServiceApi().query(surnameId).$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.surnames = function () {
+            var deferred = $q.defer();
+            surnameServiceApi().query().$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+    }]
 );
+
 
 onsServices.service('censusService', ['$resource', 'baseRestUrl', '$q',
     function($resource, baseRestUrl, $q) {
@@ -119,11 +162,53 @@ onsServices.service('censusService', ['$resource', 'baseRestUrl', '$q',
     }]
 );
 
-onsServices.factory('locationService', ['$resource', 'baseRestUrl',
-    function($resource, baseRestUrl){
-        return $resource(baseRestUrl + 'ons-command/rest/locations/:locationId', {}, {
-            query: {method: 'GET', params: {locationId: ''}, isArray: false},
-            addLocation: {method: 'POST'}
-        });
+onsServices.service('locationService', ['$resource', 'baseRestUrl', '$q',
+    function($resource, baseRestUrl, $q) {
+
+        var locationServiceApi = function() {
+            return $resource(baseRestUrl + 'ons-command/rest/locations/:locationId', {}, {
+                query: {method: 'GET', params: {locationId: ''}, isArray: false},
+                addLocation: {method: 'POST'}});
+        };
+
+        this.addLocation = function(location) {
+            var deferred = $q.defer();
+            locationServiceApi().addLocation(location).$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.getLocation = function (locationId) {
+            var deferred = $q.defer();
+            locationServiceApi().query(locationId).$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
+        this.locations = function () {
+            var deferred = $q.defer();
+            locationServiceApi().query().$promise.then(
+                function (data) {
+                    deferred.resolve(data);
+                },
+                function (error) {
+                    deferred.reject(error);
+                }
+            );
+            return deferred.promise;
+        };
+
     }]
 );

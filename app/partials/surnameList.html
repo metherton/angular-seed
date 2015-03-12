@@ -11,19 +11,54 @@
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
         </div>
     </script>
-    <button type="button"  class="btn btn-link add-entity" ng-click="open()">Add Surname</button>
 </div>
 <div class="container-fluid">
-    <div ui-grid="gridOptions" ui-grid-pagination class="surnameGrid"></div>
-    <p>Page: {{ gridApi.pagination.getPage() }}</p>
-    <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
-        previous page
-    </button>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
-        next page
-    </button>
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/602/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/603/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/604/300.jpg" alt="someone">
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <ol class="breadcrumb">
+                <li><a href="#home">Home</a></li>
+                <li class="active">Surnames</li>
+            </ol>
+            <div class="page-header">
+                <h1 id="locations">Surnames</h1>
+            </div>
+            <p><button type="button" ng-click="openAddSurname()" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add Surname</button></p>
+            <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection class="grid"></div>
+            <p>
+            <div class="row">
+                <div class="col-md-1">Page: {{ gridApi.pagination.getPage() }}</div>
+                <div class="col-md-2">Total pages: {{ gridApi.pagination.getTotalPages() }}</div>
+                <div class="col-md-4"><button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
+                    previous page
+                </button>&nbsp;
+                    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
+                        next page
+                    </button></div>
+            </div>
+            </p>
+        </div>
+    </div>
 </div>
-
-
 

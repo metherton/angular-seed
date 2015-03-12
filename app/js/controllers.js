@@ -394,12 +394,16 @@ onsControllers.controller('CensusHouseholdEntryDetailsCtrl', function ($scope, $
 onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, locationService, $routeParams, $location, $route, $modal, $log) {
 
-        $scope.gridOptions = {};
+        $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
+
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                $scope.openLocationDetails(row.entity.entityId);
+            });
         };
 
-        locationService.query().$promise.then(function(data) {
+        locationService.locations().then(function(data) {
                 $scope.countries = data.countries;
                 $scope.gridOptions.data = data.locations;
                 $scope.locations = data.locations;
@@ -415,16 +419,9 @@ onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$ro
         ];
 
 
-    //    $scope.locationsForm = locationService.query();
+        $scope.openAddLocation = function (size) {
 
-        $scope.addLocation = function(location) {
-            locationService.addLocation(location).$promise.then($route.reload);
-            $scope.location = {};
-        };
-
-        $scope.open = function (size) {
-
-            var modalInstance = $modal.open({
+            $scope.modalInstance = $modal.open({
                 resolve: {
                     countries: function() {
                         return $scope.countries;
@@ -433,16 +430,93 @@ onsControllers.controller('LocationListCtrl', ['$scope', 'locationService', '$ro
                 templateUrl: 'addLocationForm.html',
                 controller: 'AddLocationCtrl',
                 size: size
+
             });
 
-            modalInstance.result.then(function (location) {
-                locationService.addLocation(location).$promise.then($route.reload);
+            $scope.modalInstance.result.then(function (location) {
+                locationService.addLocation(location).then(function(data) {
+                    $route.reload();
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.openLocationDetails = function (locationId) {
+
+            $scope.modalInstance = $modal.open({
+                resolve: {
+                    locationId: function() {
+                        return locationId;
+                    }
+                },
+                templateUrl: 'locationDetailsForm.html',
+                controller: 'LocationDetailsCtrl'
+            });
+
+        };
     }
 ]);
+
+onsControllers.controller('LocationDetailsCtrl', function ($scope, $modalInstance, locationService, locationId) {
+
+    locationService.getLocation({locationId: locationId}).then(function(data) {
+        $scope.locationDetail = data;
+        console.log($scope.locationDetail);
+    });
+
+    $scope.change = function() {
+        console.log('changed');
+    }
+
+    $scope.isEmpty = function(value) {
+        return value === undefined;
+    }
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.location);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.myMarkers = [];
+
+    $scope.addMarker = function($event, $params) {
+        $scope.myMarkers.push(new google.maps.Marker({
+            map: $scope.myMap,
+            position: $params[0].latLng
+        }));
+    };
+
+    $scope.openMarkerInfo = function(marker) {
+        $scope.currentMarker = marker;
+        $scope.currentMarkerLat = marker.getPosition().lat();
+        $scope.currentMarkerLng = marker.getPosition().lng();
+        $scope.myInfoWindow.open($scope.myMap, marker);
+    };
+
+    $scope.setMarkerPosition = function(marker, lat, lng) {
+        marker.setPosition(new google.maps.LatLng(lat, lng));
+    };
+
+    $scope.mapOptions = {
+        center: new google.maps.LatLng(35.784, -78.670),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+});
+
 
 onsControllers.controller('SurnameListCtrl', ['$scope', 'surnameService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, surnameService, $routeParams, $location, $route, $modal, $log) {
@@ -452,7 +526,7 @@ onsControllers.controller('SurnameListCtrl', ['$scope', 'surnameService', '$rout
             $scope.gridApi = gridApi;
         };
 
-        surnameService.query().$promise.then(function(data) {
+        surnameService.surnames().then(function(data) {
                 $scope.gridOptions.data = data.surnames;
             }
         );
@@ -461,22 +535,18 @@ onsControllers.controller('SurnameListCtrl', ['$scope', 'surnameService', '$rout
             { field: 'surname', displayName: 'Surname'}
         ];
 
-        $scope.addSurname = function(surname) {
-            surnameService.addSurname(surname).$promise.then($route.reload);
-            $scope.surname = {};
-        };
+        $scope.openAddSurname = function (size) {
 
-
-        $scope.open = function (size) {
-
-            var modalInstance = $modal.open({
+            $scope.modalInstance = $modal.open({
                 templateUrl: 'addSurnameForm.html',
                 controller: 'AddSurnameCtrl',
                 size: size
             });
 
-            modalInstance.result.then(function (surname) {
-                surnameService.addSurname(surname).$promise.then($route.reload);
+            $scope.modalInstance.result.then(function (surname) {
+                surnameService.addSurname(surname).then(function(data) {
+                    $route.reload();
+                });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -598,6 +668,27 @@ onsControllers.directive('minValue', function(_) {
                 }
                 return true;
             };
+        }
+    };
+});
+
+onsControllers.directive('numbersOnly', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+                // this next if is necessary for when using ng-required on your input.
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput!=inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+
+                return transformedInput;
+            });
         }
     };
 });

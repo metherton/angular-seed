@@ -42,13 +42,16 @@
         <div class="modal-body">
 
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3 class="panel-title">{{censusDetail.person.firstName}}&nbsp;{{censusDetail.person.surname.surname}}</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">{{censusDetail.censusHousehold.census.year}}&nbsp;{{censusDetail.censusHousehold.census.country.name}}</h3></div>
                 <div class="panel-body">
                     <table>
                         <tr>
-                            <td class="panel-body-table"><strong>Census:</strong></td><td class="panel-body-table">{{censusDetail.census.year}}</td>
+                            <td class="panel-body-table"><strong>Person:</strong></td><td class="panel-body-table">{{censusDetail.person.firstName}}&nbsp;{{censusDetail.person.surname.surname}}&nbsp;</td>
                             <td class="panel-body-table">&nbsp;</td>
-                            <td class="panel-body-table"><strong>Location:</strong></td><td class="panel-body-table">{{censusDetail.location.addressLine1}}&nbsp;{{censusDetail.location.addressLine2}}&nbsp;{{censusDetail.location.city}}&nbsp;{{censusDetail.location.country.name}}</td>
+                            <td class="panel-body-table"><strong>Birth Date:</strong></td><td class="panel-body-table">{{censusDetail.person.birthDate | date}}</td>
+                        </tr>
+                        <tr>
+                            <td class="panel-body-table"><strong>Location:</strong></td><td colspan="4" class="panel-body-table">{{censusDetail.censusHousehold.location.addressLine1}}&nbsp;{{censusDetail.censusHousehold.location.addressLine2}}&nbsp;{{censusDetail.censusHousehold.location.postCode}}&nbsp;{{censusDetail.censusHousehold.location.city}}</td>
                         </tr>
                     </table>
                 </div>
@@ -56,7 +59,7 @@
 
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas"></div>
+                    <div ui-map="myMap" ui-options="mapOptions" class="map-canvas" ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"></div>
                 </div>
             </div>
         </div>

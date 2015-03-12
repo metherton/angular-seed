@@ -9,7 +9,8 @@
                     <div class="col-xs-4">
                         <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
                             <label class="control-label" for="firstName">First Name</label>
-                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
+                            <input numbers-only ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
+
                             <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             <span id="firstNameSuccess" class="sr-only">(success)</span>
                         </div>
