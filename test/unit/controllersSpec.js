@@ -6,7 +6,7 @@ describe('Ons controllers', function() {
     describe('PersonListCtrl', function() {
 
         var scope, $rootScope, $q, mockPersonService, deferredPersons, $controller, _ , $httpBackend,
-            form, compile, numbersOnlyDirective, implFn;;
+            form, compile, numbersOnlyDirective, implFn, element;
 
         beforeEach(module('onsApp'));
         beforeEach(module('onsControllers'));
@@ -22,23 +22,27 @@ describe('Ons controllers', function() {
             compile = $compile;
             numbersOnlyDirective = _numbersOnlyDirective_;
 
-            var element = angular.element(
+            element = angular.element(
                     '<form name="form">' +
-                    '<input numbers-only name="somenum" ng-model="mynum" />' +
+                    '<input numbers-only name="somenum" ng-model="model.mynum" />Value is {{mynum}}' +
                     '</form>'
             );
+            scope.model = {mynum: null};
             compile(element)(scope);
-            scope.$digest();
             form = scope.form;
-            var linkFn = numbersOnlyDirective[0].link;
 
-            var fakeCtrl = {$parsers : { push: jasmine.createSpy()},
-                $setViewValue : jasmine.createSpy(),$render : jasmine.createSpy()};
-
-
-            linkFn(null, null, null, fakeCtrl);
-            console.log('fakeCtrl', fakeCtrl.$parsers.push.calls[0].args[0]);
-            implFn = fakeCtrl.$parsers.push.calls[0].args[0];
+//            compile(element)(scope);
+//            scope.$digest();
+//            form = scope.form;
+//            var linkFn = numbersOnlyDirective[0].link;
+//
+//            var fakeCtrl = {$parsers : { push: jasmine.createSpy()},
+//                $setViewValue : jasmine.createSpy(),$render : jasmine.createSpy()};
+//
+//
+//            linkFn(null, null, null, fakeCtrl);
+//            console.log('fakeCtrl', fakeCtrl.$parsers.push.calls[0].args[0]);
+//            implFn = fakeCtrl.$parsers.push.calls[0].args[0];
 
 
             mockPersonService = {
@@ -83,7 +87,10 @@ describe('Ons controllers', function() {
         });
 
         it('should strip non digits from input', function() {
-            expect(implFn('a9')).toBe('9');
+           // expect(implFn('a9')).toBe('9');
+            form.somenum.$setViewValue('9asda');
+            $rootScope.$digest();
+            expect(scope.model.mynum).toEqual('9');
         });
 
 
