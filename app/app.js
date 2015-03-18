@@ -4,12 +4,37 @@ function onGoogleReady() {
     angular.bootstrap(document.getElementById("map"), ['onsApp']);
 }
 
+//var surnameServiceDecorator = function($delegate) {
+//
+//    var addSurname = function() {
+//        var result = $delegate.addSurname();
+//        console.log('log add surnames');
+//        return result;
+//    };
+//
+//    $delegate.addSurname = addSurname;
+//    return $delegate;
+//};
+
 var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices', 'ui.bootstrap', 'ui.grid', 'ui.grid.pagination', 'angularMoment', 'ui.map'])
     // allow DI for use in controllers, unit tests
     .constant('_', window._)
     .constant('baseUrl', 'http://localhost:8000/app/')
     .constant('baseRestUrl', 'http://localhost:8080/')
     // use in views, ng-repeat="x in _.range(3)"
+    .config(function($provide){
+        $provide.decorator('surnameService', function($delegate) {
+            var swap = function(originalFn) {
+              return function() {
+                  var args = [].slice.call(arguments);
+                  console.log('add surnamearguments', args);
+                  return originalFn.apply(null, args);
+              };
+            };
+            $delegate.addSurname = swap($delegate.addSurname);
+            return $delegate;
+        });
+    })
     .run(function ($rootScope) {
         $rootScope._ = window._;
 
