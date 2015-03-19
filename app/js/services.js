@@ -109,6 +109,13 @@ onsServices.service('surnameService', ['$resource', 'baseRestUrl', '$q',
     }]
 );
 
+onsServices.service('logService',
+    function() {
+        this.log = function(message) {
+            console.log('in log service log funciton', message);
+        };
+    }
+);
 
 onsServices.service('censusService', ['$resource', 'baseRestUrl', '$q',
     function($resource, baseRestUrl, $q) {

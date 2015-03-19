@@ -24,36 +24,34 @@ var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices
     // use in views, ng-repeat="x in _.range(3)"
     .config(function($provide){
 
-//        var surnameDecorator = function($delegate) {
-//            var addSurname = function(data) {
-//              var result = $delegate.addSurname(data);
-//              return result;
-//            };
-//            return $delegate;
-//        };
-
-        $provide.decorator('surnameService', function($delegate) {
-            var swap = function(originalFn) {
-                return function() {
+        var surnameDecorator = function($delegate) {
+            var $delegate
+            var addSurname = function(fn) {
+                return function () {
                     var args = [].slice.call(arguments);
                     console.log('add surnamearguments', args);
-                    return originalFn.apply(null, args);
+                    return fn.apply(null, args);
                 };
             };
-            $delegate.addSurname = swap($delegate.addSurname);
+            var originalFn = $delegate.addSurname;
+            $delegate.addSurname = addSurname(originalFn);
             return $delegate;
-        });
+        };
+
+        $provide.decorator('surnameService', surnameDecorator);
+
 //        $provide.decorator('surnameService', function($delegate) {
 //            var swap = function(originalFn) {
-//              return function() {
-//                  var args = [].slice.call(arguments);
-//                  console.log('add surnamearguments', args);
-//                  return originalFn.apply(null, args);
-//              };
+//                return function() {
+//                    var args = [].slice.call(arguments);
+//                    console.log('add surnamearguments', args);
+//                    return originalFn.apply(null, args);
+//                };
 //            };
 //            $delegate.addSurname = swap($delegate.addSurname);
 //            return $delegate;
 //        });
+
     })
     .run(function ($rootScope) {
         $rootScope._ = window._;
