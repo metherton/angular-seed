@@ -24,17 +24,27 @@ var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices
     // use in views, ng-repeat="x in _.range(3)"
     .config(function($provide){
 
-        var surnameDecorator = function($delegate) {
-            var $delegate
+        var surnameDecorator = function($delegate, logService) {
             var addSurname = function(fn) {
                 return function () {
                     var args = [].slice.call(arguments);
                     console.log('add surnamearguments', args);
+                    logService.log('here is my message');
+                    return fn.apply(null, args);
+                };
+            };
+            var getSurnames = function(fn) {
+                return function () {
+                    var args = [].slice.call(arguments);
+                    console.log('getsurnamearguments', args);
+                    logService.log('here is my messagefrom getsuranes');
                     return fn.apply(null, args);
                 };
             };
             var originalFn = $delegate.addSurname;
             $delegate.addSurname = addSurname(originalFn);
+            var originalFn1 = $delegate.surnames;
+            $delegate.surnames = getSurnames(originalFn1);
             return $delegate;
         };
 
