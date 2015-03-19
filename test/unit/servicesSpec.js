@@ -2,8 +2,8 @@
 
 describe('personService', function () {
 
-    var $q, $rootScope, personService, $httpBackend, apiBaseUrl, deferred,
-        resultData, resultError;
+    var $q, $rootScope, personService, $httpBackend, apiBaseUrl, deferred, surnameService,
+        resultData, resultError, mockLogService;
 
     function successHandler(data) {
         resultData = data;
@@ -17,11 +17,19 @@ describe('personService', function () {
 
         module('onsApp');
 
+        module(function($provide) {
+            mockLogService = {
+                log: jasmine.createSpy()
+            };
+            $provide.value('logService', mockLogService);
+        });
+
         inject(function(_$q_, _$rootScope_, _personService_,
-                        _$httpBackend_) {
+                        _$httpBackend_, _surnameService_) {
             $q = _$q_;
             $rootScope = _$rootScope_;
             personService = _personService_;
+            surnameService = _surnameService_;
             $httpBackend = _$httpBackend_;
         });
         deferred = $q.defer();
@@ -29,7 +37,7 @@ describe('personService', function () {
         resultError = undefined;
     });
 
-    describe('getPersons', function() {
+    describe('getPersons and surnames', function() {
 
         it('should return persons', function() {
             var result;
@@ -40,6 +48,19 @@ describe('personService', function () {
             });
             $httpBackend.flush();
             expect(result.data).toBe('somePersons');
+        });
+
+        it('should return surnames', function() {
+            var result;
+
+            $httpBackend.expectGET('http://localhost:8080/ons-command/rest/surnames').respond({data: 'someSurnames'});
+            surnameService.surnames().then(function(surnames) {
+                console.log('data:', surnames);
+                result = surnames;
+            });
+            $httpBackend.flush();
+            expect(result.data).toBe('someSurnames');
+            expect(mockLogService.log).toHaveBeenCalled();
         });
 
         afterEach(function() {
