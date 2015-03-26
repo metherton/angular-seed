@@ -1,14 +1,53 @@
 <div class="container-fluid">
-    <div ui-grid="gridOptions" ui-grid-pagination class="surnameGrid"></div>
-    <p>Page: {{ gridApi.pagination.getPage() }}</p>
-    <p>Total pages: {{ gridApi.pagination.getTotalPages() }}</p>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.previousPage()">
-        previous page
-    </button>
-    <button type="button" class="btn btn-success" ng-click="gridApi.pagination.nextPage()">
-        next page
-    </button>
+
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/602/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/603/300.jpg" alt="someone">
+                </a>
+            </div>
+            <div>
+                <a href="#" class="thumbnail">
+                    <img src="http://localhost:8000/app/images/604/300.jpg" alt="someone">
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <ol class="breadcrumb">
+                <li><a href="#home">Home</a></li>
+                <li class="active">Trees</li>
+            </ol>
+            <div class="page-header">
+                <h1 id="births">Trees <small>From 3 different branches</small></h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <div class="thumbnail">
+                        <img src="http://localhost:8000/app/images/601/300.jpg" alt="someone">
+                        <div class="caption">
+                            <h3>Ethertons London</h3>
+                            <p>...</p>
+                            <p><a href="#" class="btn btn-primary" role="button">View Tree</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
