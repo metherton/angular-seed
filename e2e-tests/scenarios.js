@@ -23,14 +23,28 @@ describe('my app', function() {
     //    browser.wait(until(textToBePresentInElement(element(by.id('births')), 'Births From 1568 - present day')), 5000);
 //        browser.wait(until.elementLocated(By.id('births'), 10000));
 
-
         browser.wait(function() {
-            element(by.id('births')).getText().then(function (value) {
-                expect(value).toBe('Births From 1568 - present day');
-            });
-            return true;
-         //   return expect(element(by.id('births')).getText()).toBe('Births From 1568 - present day');
-        } ,5000);
+            return element(by.id('births')).getText().then(
+                function (value) {
+                    return value === 'Births From 1568 - present day';
+                })
+        }, 5000);
+//            element(by.id('births')).getText().then(function (value) {
+//                return value === 'Births From 1568 - present day';
+//            });
+////            return true;
+//            //   return expect(element(by.id('births')).getText()).toBe('Births From 1568 - present day');
+//        } ,5000);
+
+
+//        browser.wait(function() {
+//            element(by.id('births')).getText().then(function (value) {
+//                expect(value).toBe('Births From 1568 - present day');
+//                return value === 'Births From 1568 - present day';
+//            });
+////            return true;
+//         //   return expect(element(by.id('births')).getText()).toBe('Births From 1568 - present day');
+//        } ,5000);
 
 
 //        browser.wait(function() {
