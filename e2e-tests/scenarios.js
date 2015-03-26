@@ -26,6 +26,7 @@ describe('my app', function() {
         browser.wait(function() {
             return element(by.id('births')).getText().then(
                 function (value) {
+                    expect(value).toBe('Births From 1568 - present day');
                     return value === 'Births From 1568 - present day';
                 })
         }, 5000);
