@@ -29,7 +29,6 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
           var deferred = $q.defer();
           personServiceApi().query(personId).$promise.then(
               function (data) {
-
                   deferred.resolve(data);
               },
               function (error) {
@@ -57,6 +56,52 @@ onsServices.service('personService', ['$resource', 'baseRestUrl', '$q',
 
   }]
 );
+
+onsServices.service('treeService', ['$resource', 'baseRestUrl', '$q',
+        function($resource, baseRestUrl, $q){
+
+            var treeServiceApi = function() {
+                var url = baseRestUrl + 'ons-command/rest/trees/:treeId';
+                console.log('url', url);
+                return $resource(url, {}, {
+                    query: {method:'GET', params:{treeId:''}, isArray:false},
+                    addTree: {method: 'POST'}
+                });
+            };
+
+            this.getTree = function (treeId) {
+                console.log('treeid', treeId);
+                var deferred = $q.defer();
+                treeServiceApi().query(treeId).$promise.then(
+                    function (data) {
+                        deferred.resolve(data);
+                    },
+                    function (error) {
+                        deferred.reject(error);
+                    }
+                );
+                return deferred.promise;
+            };
+
+            this.getTrees = function () {
+                console.log('+++++++++++++++in getTrees++++++++++++++');
+                var deferred = $q.defer();
+                treeServiceApi().query().$promise.then(
+                    function (data) {
+                        console.log('datainapip', data);
+                        deferred.resolve(data);
+                    },
+                    function (error) {
+                        deferred.reject(error);
+                    }
+                );
+                return deferred.promise;
+            };
+
+
+        }]
+);
+
 
 onsServices.service('surnameService', ['$resource', 'baseRestUrl', '$q',
     function($resource, baseRestUrl, $q) {

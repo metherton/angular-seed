@@ -2,7 +2,7 @@
 
 describe('personService', function () {
 
-    var $q, $rootScope, personService, $httpBackend, apiBaseUrl, deferred, surnameService,
+    var $q, $rootScope, personService, $httpBackend, apiBaseUrl, deferred, surnameService, treeService,
         resultData, resultError, mockLogService;
 
     function successHandler(data) {
@@ -25,12 +25,13 @@ describe('personService', function () {
         });
 
         inject(function(_$q_, _$rootScope_, _personService_,
-                        _$httpBackend_, _surnameService_) {
+                        _$httpBackend_, _surnameService_, _treeService_) {
             $q = _$q_;
             $rootScope = _$rootScope_;
             personService = _personService_;
             surnameService = _surnameService_;
             $httpBackend = _$httpBackend_;
+            treeService = _treeService_;
         });
         deferred = $q.defer();
         resultData = undefined;
@@ -68,6 +69,18 @@ describe('personService', function () {
             $httpBackend.verifyNoOutstandingRequest();
         })
 
+    });
+
+    describe('buildTree', function() {
+       it('should return tree', function() {
+           var result;
+           $httpBackend.expectGET('http://localhost:8080/ons-command/rest/trees').respond({data: 'ethertonTree'});
+           treeService.getTree(1).then(function(tree) {
+               result = tree;
+           });
+           $httpBackend.flush();
+           expect(result.data).toBe('ethertonTree');
+       });
     });
 
 //    describe('Add Person', function() {

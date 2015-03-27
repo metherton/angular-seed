@@ -3,7 +3,7 @@
 describe('logService', function () {
 
     var $q, $rootScope, $httpBackend, apiBaseUrl, deferred, logService,
-        resultData, resultError;
+        resultData, resultError, $httpBackend, personService, surnameService, mockLogService;
 
     function successHandler(data) {
         resultData = data;
@@ -14,10 +14,18 @@ describe('logService', function () {
     }
 
     beforeEach(function () {
-
         module('onsApp');
-        inject(function(_logService_) {
+        module(function($provide) {
+            mockLogService = {
+                log: jasmine.createSpy()
+            };
+            $provide.value('logService', mockLogService);
+        });
+        inject(function(_logService_, _$httpBackend_, _personService_, _surnameService_) {
             logService = _logService_;
+            personService = _personService_;
+            surnameService = _surnameService_;
+            $httpBackend = _$httpBackend_;
         });
         resultData = undefined;
         resultError = undefined;
