@@ -74,7 +74,8 @@ describe('personService', function () {
     describe('buildTree', function() {
        it('should return tree', function() {
            var result;
-           $httpBackend.expectGET('http://localhost:8080/ons-command/rest/trees').respond({data: 'ethertonTree'});
+           var tree = 'ethertonTree';
+           $httpBackend.expectGET('http://localhost:8080/ons-command/rest/trees').respond({data: tree});
            treeService.getTree(1).then(function(tree) {
                result = tree;
            });

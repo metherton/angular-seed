@@ -6,10 +6,16 @@ describe('Ons controllers', function() {
     describe('PersonListCtrl', function() {
 
         var scope, $rootScope, $q, mockPersonService, deferredPersons, $controller, _ , $httpBackend,
-            form, compile, numbersOnlyDirective, implFn, element;
+            form, compile, numbersOnlyDirective, implFn, element, mockTreeService, treeCtrl;
 
         beforeEach(module('onsApp'));
         beforeEach(module('onsControllers'));
+        beforeEach(module(function($provide) {
+            mockTreeService = {
+                getTree: jasmine.createSpy().andReturn('tree')
+            };
+            $provide.value('treeService', mockTreeService);
+        }));
 
         beforeEach(inject(function(_$controller_, personService, _$rootScope_, _$q_, _$httpBackend_, $compile, _numbersOnlyDirective_) {
             $q = _$q_;
@@ -49,6 +55,8 @@ describe('Ons controllers', function() {
                 getPersons: function() {return deferredPersons.promise;}
             };
 
+
+
             spyOn(mockPersonService, 'getPersons').andCallThrough();
 
             $httpBackend.expectGET('partials/home.html').respond(200);
@@ -58,8 +66,17 @@ describe('Ons controllers', function() {
                     $scope: scope,
                     personService: mockPersonService,
                     _: $rootScope._
+
                 }
             );
+            treeCtrl = $controller('TreeCtrl',
+                {
+                    $scope: scope,
+                    _: $rootScope._
+
+                }
+            );
+
         }));
 
         it('should set all person list data on the scope', function() {
@@ -93,8 +110,16 @@ describe('Ons controllers', function() {
             expect(scope.model.mynum).toEqual('9');
         });
 
+        it('should construct tree', function() {
+
+            treeCtrl.makeTree(1);
+
+            expect(mockTreeService.getTree).toHaveBeenCalled();
+            expect(scope.tree).toBe('tree');
+        });
 
     });
+
 
 
 });

@@ -4,6 +4,12 @@
 
 var onsControllers = angular.module('onsControllers', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection']);
 
+onsControllers.controller('TreeCtrl', function($scope, treeService) {
+
+    this.makeTree = function() {
+       $scope.tree = treeService.getTree(1);
+    };
+});
 onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeParams', '$route', '$modal', '$log', '_', 'moment', '$q', '$window',
     function($scope, personService, $routeParams,  $route, $modal, $log, _, moment) {
 
