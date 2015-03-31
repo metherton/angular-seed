@@ -4,76 +4,94 @@
             <h3 class="modal-title">Add Birth</h3>
         </div>
         <div class="modal-body">
-            <form form-helper="formHelper" novalidate name="addPersonForm">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
-                            <label class="control-label" for="firstName">First Name</label>
-                            <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#add" data-toggle="tab">Add Person</a></li>
+                <li role="presentation"><a href="#something" data-toggle="tab">Something else</a></li>
+            </ul>
 
-                            <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                            <span id="firstNameSuccess" class="sr-only">(success)</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <label for="surname">Surname</label>
-                            <select ng-init="person.surname=surnames[0]" ng-change="change()" required class="form-control" id="surname" ng-model="person.surname.entityId" ng-options="surname.entityId as surname.surname for surname in surnames">
-                                <span ng-show="formHelper.showValidationMessageFor('surname')" >Form Helper Surname is required</span>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-5">
-                        <div class="form-group">
-                            <label for="birthDate">Birth Date</label>
-                            <p class="input-group">
-                                <input ng-change="change()" class="form-control"  type="text" datepicker-popup="{{format}}" ng-model="person.birthDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+            <div class="tab-content">
+                <div class="tab-pane active" id="add">
+                    <form form-helper="formHelper" novalidate name="addPersonForm">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
+                                    <label class="control-label" for="firstName">First Name</label>
+                                    <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
+
+                                    <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                    <span id="firstNameSuccess" class="sr-only">(success)</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <select ng-init="person.surname=surnames[0]" ng-change="change()" required class="form-control" id="surname" ng-model="person.surname.entityId" ng-options="surname.entityId as surname.surname for surname in surnames">
+                                        <span ng-show="formHelper.showValidationMessageFor('surname')" >Form Helper Surname is required</span>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="form-group">
+                                    <label for="birthDate">Birth Date</label>
+                                    <p class="input-group">
+                                        <input ng-change="change()" class="form-control"  type="text" datepicker-popup="{{format}}" ng-model="person.birthDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label for="father">Father</label>
-                            <select ng-change="change()" class="form-control"  id="father" ng-model="person.fatherId" ng-options="father.person.entityId as father.personSummary group by father.person.surname.surname  for father in fathers"></select>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label for="mother">Mother</label>
-                            <select ng-change="change()" class="form-control"  id="mother" ng-model="person.motherId" ng-options="mother.person.entityId as mother.personSummary for mother in mothers"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="form-group" ng-class="{'has-error': addPersonForm.location.$error.required  && addPersonForm.location.$dirty, 'has-warning': addPersonForm.location.$invalid && addPersonForm.location.$pristine, 'has-success': addPersonForm.location.$valid}" >
-                            <label class="control-label" for="location">Birth Location</label>
-                            <select name="location" required placeholder="location" ng-change="change()" class="form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                        <div class="col-xs-2">
-                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required  && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
-                                <label for="gender" class="radio-inline">
-                                    <input required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
-                                </label>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-2">
-                            <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
-                                <label for="gender" class="radio-inline">
-                                    <input required name="gender[]" ng-change="change()" id="female" type="radio" ng-model="person.gender" value="0" />&nbsp;Female
-                                </label>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="father">Father</label>
+                                    <select ng-change="change()" class="form-control"  id="father" ng-model="person.fatherId" ng-options="father.person.entityId as father.personSummary group by father.person.surname.surname  for father in fathers"></select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="mother">Mother</label>
+                                    <select ng-change="change()" class="form-control"  id="mother" ng-model="person.motherId" ng-options="mother.person.entityId as mother.personSummary for mother in mothers"></select>
+                                </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="form-group" ng-class="{'has-error': addPersonForm.location.$error.required  && addPersonForm.location.$dirty, 'has-warning': addPersonForm.location.$invalid && addPersonForm.location.$pristine, 'has-success': addPersonForm.location.$valid}" >
+                                    <label class="control-label" for="location">Birth Location</label>
+                                    <select name="location" required placeholder="location" ng-change="change()" class="form-control" id="location" ng-model="person.location.entityId" ng-options="location.entityId as (location.addressLine1 + ' ' + location.addressLine2 + ' ' + location.city + ' ' +  location.country.name) for location in locations"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required  && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
+                                    <label for="gender" class="radio-inline">
+                                        <input required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
+                                    <label for="gender" class="radio-inline">
+                                        <input required name="gender[]" ng-change="change()" id="female" type="radio" ng-model="person.gender" value="0" />&nbsp;Female
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+
+                <div class="tab-pane" id="something">
+
+                        here is something else
+                </div>
+
+
+            </div>
+
+
         </div>
 
         <div class="modal-footer">
