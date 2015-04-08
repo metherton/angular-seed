@@ -527,7 +527,7 @@ onsControllers.controller('LocationDetailsCtrl', function ($scope, $modalInstanc
 onsControllers.controller('SurnameListCtrl', ['$scope', 'surnameService', '$routeParams', '$location', '$route', '$modal', '$log',
     function($scope, surnameService, $routeParams, $location, $route, $modal, $log) {
 
-        $scope.gridOptions = {};
+        $scope.gridOptions = {enableRowSelection: true, enableRowHeaderSelection: false};
         $scope.gridOptions.onRegisterApi = function (gridApi) {
             $scope.gridApi = gridApi;
         };
