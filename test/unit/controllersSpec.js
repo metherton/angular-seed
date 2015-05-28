@@ -3,7 +3,7 @@
 /* jasmine specs for controllers go here */
 describe('Ons controllers', function() {
 
-    describe('PersonListCtrl', function() {
+    xdescribe('PersonListCtrl', function() {
 
         var scope, $rootScope, $q, mockPersonService, deferredPersons, $controller, _ , $httpBackend,
             form, compile, numbersOnlyDirective, implFn, element, mockTreeService, treeCtrl;
@@ -79,7 +79,7 @@ describe('Ons controllers', function() {
 
         }));
 
-        it('should set all person list data on the scope', function() {
+        xit('should set all person list data on the scope', function() {
             var surnames = ['Etherton', 'Jones'];
             var fathers = ['Samuel', 'Sidney'];
             var mothers = ['Nora', 'Mary'];
@@ -120,6 +120,39 @@ describe('Ons controllers', function() {
 
     });
 
+    describe('directives', function() {
+
+        var $rootScope, $compile, element, $timeout;
+
+        beforeEach(module('onsApp'));
+
+        beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_) {
+            $rootScope = _$rootScope_;
+            $compile = _$compile_;
+            $timeout = _$timeout_;
+
+        }));
+
+        it('should set focus on the input element', function() {
+            element = angular.element('<input focus-me="true" />');
+            $compile(element)($rootScope);
+
+            spyOn(element[0],'focus');
+            $rootScope.$digest();
+
+
+            $timeout.flush();
+
+//            $rootScope.$digest();
+            expect(element[0].focus).toHaveBeenCalled();
+        });
+
+        afterEach(function() {
+            $timeout.verifyNoPendingTasks()
+        })
+
+
+    });
 
 
 });
