@@ -13,15 +13,6 @@
                 <div class="tab-pane active" id="add">
                     <form form-helper="formHelper" novalidate name="addPersonForm">
                         <div class="row">
-                            <div class="col-xs-4">
-                                <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
-                                    <label class="control-label" for="firstName">First Name</label>
-                                    <input ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
-
-                                    <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                                    <span id="firstNameSuccess" class="sr-only">(success)</span>
-                                </div>
-                            </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
                                     <label for="surname">Surname</label>
@@ -30,6 +21,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-xs-4">
+                                <div class="form-group" ng-class="{'has-error': addPersonForm.firstName.$error.required && addPersonForm.firstName.$dirty, 'has-warning': addPersonForm.firstName.$invalid && addPersonForm.firstName.$pristine, 'has-success': addPersonForm.firstName.$valid, 'has-feedback': addPersonForm.firstName.$valid}" >
+                                    <label class="control-label" for="firstName">First Name</label>
+                                    <input focus-me="shouldBeOpen" ng-change="change()" class="form-control" type="text"  placeholder="Enter First Name" name="firstName" id="firstName" ng-model="person.firstName" required aria-describedby="firstNameSuccess" >
+
+                                    <span ng-show="addPersonForm.firstName.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                                    <span id="firstNameSuccess" class="sr-only">(success)</span>
+                                </div>
+                            </div>
+
                             <div class="col-xs-5">
                                 <div class="form-group">
                                     <label for="birthDate">Birth Date</label>
@@ -68,7 +69,7 @@
                             <div class="col-xs-2">
                                 <div class="form-group" ng-class="{'has-error': addPersonForm.gender.$error.required  && addPersonForm.gender.$dirty, 'has-warning': addPersonForm.gender.$invalid && addPersonForm.gender.$pristine, 'has-success': addPersonForm.gender.$valid}">
                                     <label for="gender" class="radio-inline">
-                                        <input required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
+                                        <input  required name="gender" ng-change="change()" id="male" type="radio" ng-model="person.gender" value="1" />&nbsp;Male
                                     </label>
                                 </div>
                             </div>

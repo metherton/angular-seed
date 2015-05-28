@@ -6,6 +6,7 @@ describe('my app', function() {
 
     var _ = require('lodash');
 
+
     beforeEach(function() {
         browser.get('index.html');
     });
@@ -53,6 +54,9 @@ describe('my app', function() {
 //        }  , 5000);
 
 
+        element.all(by.repeater('(rowRenderIndex, row) in rowContainer.renderedRows track by $index')).each(function(elements) {
+           console.log('elements', elements);
+        });
 
         element.all(by.repeater('(rowRenderIndex, row) in rowContainer.renderedRows track by $index')).filter(function(element) {
             return element.getText().then(function(s) {

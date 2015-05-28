@@ -79,6 +79,9 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                     },
                     locations: function() {
                         return $scope.locations;
+                    },
+                    shouldBeOpen: function() {
+                        return true;
                     }
                 },
                 templateUrl: 'addPersonForm.html',
@@ -220,8 +223,9 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
     };
 });
 
-onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment) {
+onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment, shouldBeOpen) {
 
+    $scope.shouldBeOpen = shouldBeOpen;
     $scope.surnames = surnames;
     $scope.fathers = fathers;
     $scope.mothers = mothers;

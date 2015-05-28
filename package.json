@@ -11,6 +11,7 @@
     "karma": "~0.10",
     "karma-junit-reporter": "^0.2.2",
     "lodash": "^2.4.1",
+    "ng-mock-e2e": "^0.1.0",
     "protractor": "^2.0.0",
     "shelljs": "^0.2.6"
   },

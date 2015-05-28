@@ -62,15 +62,14 @@ var onsApp = angular.module('onsApp', ['ngRoute', 'onsControllers', 'onsServices
 //            return $delegate;
 //        });
 
-    })
-    .run(function ($rootScope) {
-        $rootScope._ = window._;
-
-
-
-// register the interceptor as a service
-
     });
+//    .run(function ($rootScope) {
+//        $rootScope._ = window._;
+//
+//
+//
+//
+//    });
 
 
 
@@ -94,6 +93,8 @@ onsApp.directive('personList', function() {
         };
     }
 );
+
+
 
 
 onsApp.directive('formHelper', function() {
@@ -348,7 +349,28 @@ onsApp.directive('locationForm', function() {
     };
 });
 
-
+onsApp.directive('focusMe', function($timeout, $parse) {
+    return {
+        //scope: true,   // optionally create a child scope
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.focusMe);
+            scope.$watch(model, function(value) {
+                console.log('value=',value);
+                if(value === true) {
+                    $timeout(function() {
+                        element[0].focus();
+                    });
+                }
+            });
+            // to address @blesh's comment, set attribute value to 'false'
+            // on blur event:
+            element.bind('blur', function() {
+                console.log('blur');
+                scope.$apply(model.assign(scope, false));
+            });
+        }
+    };
+});
 
 onsApp.config(function($routeProvider, $provide, $httpProvider) {
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: 'HomeCtrl'});
@@ -439,3 +461,65 @@ onsApp.filter('capitalize', function() {
     }
 });
 
+var onsAppDev = angular.module('onsAppDev', ['onsApp', 'ngMockE2E']);
+onsAppDev.run(function($httpBackend, $rootScope) {
+
+    $rootScope._ = window._;
+
+    var personDetails =  {
+        personDetails: [
+            {person:
+                {
+                    gender:1,
+                entityId:1,
+                firstName: 'samuel',
+                surname: {entityId:1,surname: 'Etherton'},
+                location:{entityId:1,city:'london',postCode: 'e1',
+                    addressLine1: 'brick lane',
+                    addressLine2 : 'bethnal green',
+                    country:{entityId:1,code: 'uk', name: 'united kingdom'}
+                },
+                birthDate:-5206899600000,
+                motherId:3,
+                fatherId:4
+            }, marriages:[],
+                birthDate: '01-01-1805',
+                personSummary: 'samuel Etherton 01-01-1805',
+                fatherDetails: 'Unknown father',
+                motherDetails: 'Unknown mother'
+            },
+            {person:
+            {
+                gender:1,
+                entityId:1,
+                firstName: 'george',
+                surname: {entityId:1,surname: 'Etherton'},
+                location:{entityId:1,city:'london',postCode: 'e1',
+                    addressLine1: 'brick lane',
+                    addressLine2 : 'bethnal green',
+                    country:{entityId:1,code: 'uk', name: 'united kingdom'}
+                },
+                birthDate:-5206899600000,
+                motherId:3,
+                fatherId:4
+            }, marriages:[],
+                birthDate: '01-01-1805',
+                personSummary: 'samuel Etherton 01-01-1805',
+                fatherDetails: 'Unknown father',
+                motherDetails: 'Unknown mother'
+            }
+
+        ]
+    };
+
+    $httpBackend.whenGET('/ons-command/rest/persons').respond(personDetails);
+    $httpBackend.whenGET('/persons').respond(personDetails);
+
+    $httpBackend.whenGET(/.*/).respond(personDetails);
+
+    $httpBackend.whenGET('http://localhost:8080/ons-command/rest/persons').respond(personDetails);
+    $httpBackend.whenGET('http://localhost:8080/ons-command/rest/persons/').respond(personDetails);
+
+    console.log('in onsappdev');
+
+});
