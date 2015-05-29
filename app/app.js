@@ -353,7 +353,9 @@ onsApp.directive('focusMe', function($timeout, $parse) {
     return {
         //scope: true,   // optionally create a child scope
         link: function(scope, element, attrs) {
+            console.log('attr', attrs.focusMe);
             var model = $parse(attrs.focusMe);
+            console.log('model is', model);
             scope.$watch(model, function(value) {
                 console.log('value=',value);
                 if(value === true) {

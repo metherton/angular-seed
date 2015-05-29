@@ -66,6 +66,10 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
 
         $scope.openAddPerson = function (size) {
 
+            $scope.okButtonFocus = false;
+            $scope.firstNameFocus = true;
+
+
             $scope.modalInstance = $modal.open({
                 resolve: {
                     surnames: function() {
@@ -82,6 +86,12 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                     },
                     shouldBeOpen: function() {
                         return true;
+                    },
+                    okButtonFocus: function() {
+                        return $scope.okButtonFocus;
+                    },
+                    firstNameFocus: function() {
+                        return $scope.firstNameFocus;
                     }
                 },
                 templateUrl: 'addPersonForm.html',
@@ -223,9 +233,11 @@ onsControllers.controller('AddCensusHouseholdEntryCtrl', function ($scope, $moda
     };
 });
 
-onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment, shouldBeOpen) {
+onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, surnames, fathers, mothers, locations, moment, shouldBeOpen, firstNameFocus, okButtonFocus) {
 
     $scope.shouldBeOpen = shouldBeOpen;
+    $scope.firstNameFocus = firstNameFocus;
+    $scope.okButtonFocus = okButtonFocus;
     $scope.surnames = surnames;
     $scope.fathers = fathers;
     $scope.mothers = mothers;
@@ -235,11 +247,11 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
 
     $scope.change = function() {
         console.log('changed');
-    }
+    };
 
     $scope.isEmpty = function(value) {
         return value === undefined;
-    }
+    };
 
     $scope.ok = function () {
         $modalInstance.close($scope.person);
