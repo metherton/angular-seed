@@ -246,7 +246,11 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
     $scope.person = {};
 
     $scope.change = function() {
-        console.log('changed');
+        if ($scope.person.firstName === 'martin') {
+            $scope.okButtonFocus = true;
+        } else {
+            $scope.okButtonFocus = false;
+        }
     };
 
     $scope.isEmpty = function(value) {
