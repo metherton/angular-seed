@@ -68,6 +68,7 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
 
             $scope.okButtonFocus = false;
             $scope.firstNameFocus = true;
+            $scope.shouldBeOpen = true;
 
 
             $scope.modalInstance = $modal.open({
@@ -85,7 +86,7 @@ onsControllers.controller('PersonListCtrl', ['$scope', 'personService', '$routeP
                         return $scope.locations;
                     },
                     shouldBeOpen: function() {
-                        return true;
+                        return $scope.shouldBeOpen;
                     },
                     okButtonFocus: function() {
                         return $scope.okButtonFocus;
@@ -246,11 +247,6 @@ onsControllers.controller('AddPersonCtrl', function ($scope, $modalInstance, sur
     $scope.person = {};
 
     $scope.change = function() {
-        if ($scope.person.firstName === 'martin') {
-            $scope.okButtonFocus = true;
-        } else {
-            $scope.okButtonFocus = false;
-        }
     };
 
     $scope.isEmpty = function(value) {

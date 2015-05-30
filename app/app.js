@@ -353,9 +353,7 @@ onsApp.directive('focusMe', function($timeout, $parse) {
     return {
         //scope: true,   // optionally create a child scope
         link: function(scope, element, attrs) {
-            console.log('attr', attrs.focusMe);
             var model = $parse(attrs.focusMe);
-            console.log('model is', model);
             scope.$watch(model, function(value) {
                 console.log('value=',value);
                 if(value === true) {
@@ -368,7 +366,23 @@ onsApp.directive('focusMe', function($timeout, $parse) {
             // on blur event:
             element.bind('blur', function() {
                 console.log('blur');
-       //            scope.$apply(model.assign(scope, false));
+                scope.$apply(model.assign(scope, false));
+            });
+        }
+    };
+});
+
+onsApp.directive('focusMeExpression', function($timeout) {
+    return {
+        link: function(scope, element, attrs) {
+            scope.$watch(attrs.focusMeExpression, function(value) {
+                if(value === true) {
+                    console.log('value=',value);
+                    //$timeout(function() {
+                    element[0].focus();
+                    scope[attrs.focusMeExpression] = false;
+                    //});
+                }
             });
         }
     };
