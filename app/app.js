@@ -169,7 +169,7 @@ onsApp.directive('sortName', function() {
                 if (attrs.sortName != scope.orderProp) {
                     scope.orderProp = attrs.sortName
                 }
-                scope.$apply();
+                scope.$safeApply();
             });
         }
     }
