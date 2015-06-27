@@ -55,6 +55,11 @@ describe('my app', function() {
 
 
         element.all(by.repeater('(rowRenderIndex, row) in rowContainer.renderedRows track by $index')).each(function(elements) {
+            console.log('elements', elements);
+        });
+
+
+        element.all(by.repeater('(rowRenderIndex, row) in rowContainer.renderedRows track by $index')).each(function(elements) {
            console.log('elements', elements);
         });
 

@@ -147,6 +147,20 @@ describe('Ons controllers', function() {
             expect(element[0].focus).toHaveBeenCalled();
         });
 
+        it('should set focus on the input element for an expression', function() {
+            element = angular.element('<input focus-me-expression="true" />');
+            $compile(element)($rootScope);
+
+            spyOn(element[0],'focus');
+            $rootScope.$digest();
+
+
+        //      $timeout.flush();
+
+//            $rootScope.$digest();
+            expect(element[0].focus).toHaveBeenCalled();
+        });
+
         afterEach(function() {
             $timeout.verifyNoPendingTasks()
         })
